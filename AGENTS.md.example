@@ -1,0 +1,117 @@
+# [Your Project Name]
+
+Development guide for agentic coding agents working with this codebase.
+
+## Project Overview
+
+Brief description of the project, its purpose, and the business domain.
+
+## Key Technologies
+
+- **Framework:** [e.g., Magento 2.4, Laravel 11, Next.js 15]
+- **Language:** [e.g., PHP 8.4, TypeScript 5.x, Go 1.23]
+- **Local Development:** [e.g., DDEV, Docker Compose, devcontainer]
+- **Infrastructure:** [e.g., AWS ECS, Kubernetes, Vercel]
+- **CI/CD:** [e.g., Jenkins, GitHub Actions, GitLab CI]
+- **Package Management:** [e.g., Composer, npm, pnpm]
+- **Testing:** [e.g., PHPUnit, Jest, Vitest, Playwright]
+
+## Agent Persona
+
+You are an expert [role]. You prioritize:
+- **Performance:** [project-specific performance priorities]
+- **Security:** [project-specific security priorities]
+- **Maintainability:** [project-specific maintainability priorities]
+
+## Principles & Boundaries
+
+### ALWAYS
+- [Mandatory practice 1]
+- [Mandatory practice 2]
+- [Mandatory practice 3]
+
+### NEVER
+- [Forbidden practice 1]
+- [Forbidden practice 2]
+- [Forbidden practice 3]
+
+## Directory Structure
+
+```
+project-root/
+├── src/               # [Description]
+├── tests/             # [Description]
+├── docs/              # [Description]
+├── scripts/           # Workflow scripts (ticket management)
+└── thoughts/          # Development process documentation
+    └── shared/
+        ├── tickets/       # Local tickets
+        ├── research/      # Codebase research documents
+        ├── plans/         # Implementation plans
+        ├── reviews/       # Code review documents
+        └── discussions/   # Technical discussion records
+```
+
+## Local Development
+
+### Setup
+
+```bash
+# [Setup steps for your project]
+```
+
+### Common Commands
+
+| Command | Description |
+|---------|-------------|
+| `[command]` | [description] |
+
+### Testing Commands
+
+| Command | Description |
+|---------|-------------|
+| `[test command]` | [description] |
+
+## Code Style Guidelines
+
+- [Style rule 1]
+- [Style rule 2]
+- [Style rule 3]
+
+## Development Conventions
+
+### Branch Naming
+
+Follow the pattern: `[type]/[shortcode]/[ticket-id]/[description]`
+
+Examples:
+- `feature/PROJ/PROJ-0001/add-new-feature`
+- `bugfix/PROJ/PROJ-0002/fix-checkout-bug`
+
+### Commit Messages
+
+Use conventional commits with ticket IDs:
+
+```
+[TICKET-ID] Short summary of changes
+
+* Why this change was needed
+* Additional context
+
+Refs: TICKET-IDs
+```
+
+## Implementation Discipline
+
+- **Tests are NOT a separate phase.** Each implementation phase includes BOTH the feature AND its tests.
+- Commit after each verified logical step.
+- Use `todowrite` to plan and track complex implementations.
+- Research existing patterns before implementing new features.
+- Never defer testing — a phase is only complete when tests pass.
+
+## Git Discipline
+
+- Commit after each verified logical step (conventional commits).
+- **NEVER** run `git push` — the human decides when to push.
+- **NEVER** use `git commit --amend`.
+- Keep commits atomic and focused.

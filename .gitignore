@@ -1,0 +1,29 @@
+# Credentials and secrets — NEVER commit these
+opencode.json
+*.env
+*.secret
+*.credentials
+*.key
+*.pem
+
+# Per-project config (contains project-specific prefix)
+.ticket-prefix
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+bun.lock
+package-lock.json
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OpenCode runtime
+.opencode/

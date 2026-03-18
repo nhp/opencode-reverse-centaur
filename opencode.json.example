@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "provider": {
+    "YOUR_PROVIDER": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.YOUR_PROVIDER.example/v1"
+      },
+      "models": {
+        "your-model-id": {}
+      }
+    }
+  },
+
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp@latest"],
+      "enabled": true
+    },
+    "jira": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "enabled": true,
+      "oauth": {}
+    },
+    "bitbucket": {
+      "type": "local",
+      "command": ["npx", "-y", "@aashari/mcp-server-atlassian-bitbucket"],
+      "environment": {
+        "ATLASSIAN_USER_EMAIL": "YOUR_EMAIL@example.com",
+        "ATLASSIAN_API_TOKEN": "YOUR_API_TOKEN_HERE"
+      }
+    }
+  },
+
+  "plugin": [
+    "opencode-anthropic-auth@latest"
+  ],
+
+  "autoshare": false,
+  "autoupdate": true
+}
