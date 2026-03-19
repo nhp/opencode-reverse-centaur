@@ -23,11 +23,14 @@ Use the Jira MCP to fetch the ticket with key `$ARGUMENTS`. Retrieve:
 - Linked issues
 - Comments (for additional context)
 
-## Step 3: Get Next Local Ticket Number
+## Step 3: Determine Ticket ID
 
-```
-!`./scripts/next-ticket.sh`
-```
+**Use the original Jira ticket key as the local ticket ID.** The Jira key (e.g., `PROJ-1234`) becomes the canonical identifier — do NOT call `next-ticket.sh` or generate a new sequential ID.
+
+This means:
+- If the Jira key is `SHOP-42`, the local ticket ID is `SHOP-42`
+- If the Jira key is `PROJ-1234`, the local ticket ID is `PROJ-1234`
+- The prefix in the Jira key does NOT need to match `thoughts/.ticket-prefix`
 
 ## Step 4: Map to Local Format
 
@@ -44,12 +47,12 @@ Convert the Jira ticket data into the local ticket markdown format:
 
 ## Step 5: Write the File
 
-Write to: `thoughts/shared/tickets/[LOCAL-TICKET-ID]-[brief-description].md`
+Write to: `thoughts/shared/tickets/$ARGUMENTS-[brief-description].md`
 
-Include a `Jira Reference:` field in the metadata so the ticket can be traced back:
+The filename uses the original Jira ticket key. Include a `Jira Reference:` field for traceability:
 
 ```markdown
-# [LOCAL-ID]: [Title from Jira]
+# $ARGUMENTS: [Title from Jira]
 
 **Status:** [Mapped status]
 **Priority:** [Mapped priority]
