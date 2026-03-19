@@ -82,11 +82,19 @@ project-root/
 
 ### Branch Naming
 
-Follow the pattern: `[type]/[shortcode]/[ticket-id]/[description]`
+If `thoughts/.user-acronym` exists, read the acronym and follow:
+`[type]/[acronym]/[ticket-id]/[description]`
 
-Examples:
-- `feature/PROJ/PROJ-0001/add-new-feature`
-- `bugfix/PROJ/PROJ-0002/fix-checkout-bug`
+If no acronym is configured, omit the acronym segment:
+`[type]/[ticket-id]/[description]`
+
+Examples (with acronym "nhp"):
+- `feature/nhp/PROJ-0001/add-new-feature`
+- `bugfix/nhp/PROJ-0002/fix-checkout-bug`
+
+Examples (without acronym):
+- `feature/PROJ-0001/add-new-feature`
+- `bugfix/PROJ-0002/fix-checkout-bug`
 
 ### Commit Messages
 

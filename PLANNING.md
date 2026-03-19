@@ -70,6 +70,8 @@ opencode-template/
 | Install method | Symlinks for global dirs (commands, agents, skills, plugins) | Git pull = instant updates. `opencode.json` never symlinked — stays private. |
 | Credential isolation | Repo contains zero credentials. `opencode.json.example` has placeholders. Defensive `.gitignore`. | Public repo safety. |
 | Ticket prefix | Per-project `thoughts/.ticket-prefix` file | Scripts read it dynamically. Avoids hardcoding. Set during `/init-workflow`. |
+| Jira ticket IDs | Use original Jira key as-is | `/ticket-from-jira` preserves the Jira ticket key (e.g., `SHOP-42`) instead of generating a sequential local ID. Scripts scan all `.md` files in tickets dir. |
+| User acronym | Optional `thoughts/.user-acronym` file | Set during `/init-workflow`. Used in branch naming: `feature/nhp/PROJ-0001/desc`. Gitignored. |
 | Skeleton location | `OPENCODE_TEMPLATE_DIR` env var | Portable. Set once in shell config. `/init-workflow` reads it. |
 | Hook: ticket status reminder | OpenCode plugin (`tool.execute.after`) | Replaces template's `check-ticket-status.sh`. Watches `git add` calls, reminds agent to update ticket status. |
 | Hook: status validation | Dropped | Agent follows instructions in command prompts. Not worth the plugin complexity. |

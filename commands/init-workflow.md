@@ -40,6 +40,17 @@ $ARGUMENTS
 
 (Just the prefix string, no newline or whitespace)
 
+## Step 2b: User Acronym (optional)
+
+Ask the user if they want to use a **user acronym** for branch naming. Explain:
+> A user acronym is a short personal identifier (e.g., "nhp", "jd", "mw") used in branch names to identify who owns a branch. This is useful in team environments.
+>
+> With acronym: `feature/nhp/PROJ-0001/add-feature`
+> Without acronym: `feature/PROJ-0001/add-feature`
+
+- If the user wants an acronym: ask for the acronym string, then write it to `thoughts/.user-acronym` (just the acronym, no newline or whitespace).
+- If the user does not want one: skip this step. Do NOT create `thoughts/.user-acronym`.
+
 ## Step 3: Copy Scripts
 
 Copy the 3 scripts from the template skeleton into `scripts/`:
@@ -62,7 +73,10 @@ If a `.gitignore` file exists, check if it already contains `thoughts/.ticket-pr
 ```
 # Workflow template
 thoughts/.ticket-prefix
+thoughts/.user-acronym
 ```
+
+If `thoughts/.user-acronym` was created in Step 2b, make sure it's included too.
 
 Ask the user before modifying `.gitignore`.
 
@@ -76,6 +90,7 @@ Workflow initialized with prefix: [PREFIX]
 Created:
   thoughts/shared/{tickets,discussions,plans,research,reviews}/
   thoughts/.ticket-prefix
+  [thoughts/.user-acronym (if configured)]
   scripts/{ticket.sh,next-ticket.sh,open_tickets.sh}
   [AGENTS.md (if generated)]
 
