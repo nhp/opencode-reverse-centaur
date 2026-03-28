@@ -60,11 +60,22 @@ Copy the 3 scripts from the template skeleton into `scripts/`:
 
 Make them executable: `chmod +x scripts/*.sh`
 
-## Step 4: Generate AGENTS.md (optional)
+## Step 4: Symlink AGENTS-base.md
+
+Create a symlink for the shared development standards file:
+```
+ln -sf $OPENCODE_TEMPLATE_DIR/AGENTS-base.md AGENTS-base.md
+```
+
+This file contains universal rules (security, git discipline, implementation discipline, conventions) and stays up-to-date automatically via the symlink.
+
+**If the symlink already exists and points to the correct target:** Skip and confirm it's correct.
+
+## Step 4b: Generate AGENTS.md (optional)
 
 Check if an `AGENTS.md` file exists in the project root.
 
-- **If it exists:** Skip this step. Tell the user their existing AGENTS.md is preserved.
+- **If it exists:** Skip this step. Tell the user their existing AGENTS.md is preserved. Remind them it should reference `AGENTS-base.md` at the top.
 - **If it doesn't exist:** Copy `$OPENCODE_TEMPLATE_DIR/AGENTS.md.example` to `AGENTS.md` in the project root. Tell the user to customize it for their project.
 
 ## Step 5: Update .gitignore (optional)
@@ -92,6 +103,7 @@ Created:
   thoughts/.ticket-prefix
   [thoughts/.user-acronym (if configured)]
   scripts/{ticket.sh,next-ticket.sh,open_tickets.sh}
+  AGENTS-base.md → $OPENCODE_TEMPLATE_DIR/AGENTS-base.md (symlink)
   [AGENTS.md (if generated)]
 
 Next steps:

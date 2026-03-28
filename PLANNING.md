@@ -77,7 +77,7 @@ opencode-template/
 | Hook: status validation | Dropped | Agent follows instructions in command prompts. Not worth the plugin complexity. |
 | Template extraction | Skills for research-document and implementation-plan | Saves tokens — loaded on demand instead of embedded in every command invocation. |
 | Scaffold command | `/init-workflow PREFIX` | Creates dirs, copies scripts, writes `.ticket-prefix`, generates starter `AGENTS.md`. |
-| AGENTS.md generation | Starter template with common sections | Only if no AGENTS.md exists. |
+| AGENTS.md split | `AGENTS-base.md` (symlinked, universal) + `AGENTS.md` (copied, project-specific) | Universal rules (security, git discipline, conventions) update automatically via symlink. Project-specific config (tech stack, persona, commands) stays per-project. |
 | Security awareness | Layered: AGENTS.md rules + security-checklist skill + command gates | AGENTS.md has always-on NEVER/ALWAYS rules (OWASP-inspired + AI-specific). Security skill loaded on demand by /research, /plan, /implement, /review. Commands embed security checkpoints at each workflow stage. /commit has a security pre-flight scan. |
 
 ## Component Inventory
