@@ -109,6 +109,37 @@ Use conventional commits with ticket IDs:
 Refs: TICKET-IDs
 ```
 
+## Security Awareness
+
+**AI-generated code is statistically less secure than human-written code** (Perry et al., CCS 2023; Pearce et al., IEEE S&P 2022). Treat all generated code as untrusted and apply these rules rigorously.
+
+### NEVER (Security)
+
+- **NEVER** concatenate user input into SQL, shell commands, LDAP queries, or template strings — use parameterized queries, subprocess with argument lists, and auto-escaping templates
+- **NEVER** hardcode secrets, API keys, passwords, or tokens in source code — use environment variables or a secrets manager
+- **NEVER** use `eval()`, `exec()`, `Function()`, or `system()` with user-influenced data
+- **NEVER** use MD5, SHA1, DES, RC4, or ECB mode for any security purpose — use bcrypt/argon2 for passwords, AES-GCM for encryption, SHA-256+ for hashing
+- **NEVER** use `Math.random()` / `random.random()` for tokens, session IDs, or security-sensitive values — use `crypto.randomBytes()` / `secrets.token_hex()`
+- **NEVER** accept file paths from users without canonicalization (`realpath()`) and directory boundary checks
+- **NEVER** skip server-side authorization checks — UI-level hiding is not access control
+- **NEVER** deserialize untrusted data with `pickle`, `yaml.load()`, or Java `ObjectInputStream` — use JSON or `yaml.safe_load()`
+- **NEVER** fetch user-supplied URLs without validating scheme, hostname, and blocking internal/metadata IPs (SSRF)
+- **NEVER** disable SSL/TLS verification (`verify=False`) or CSRF protection — fix the root cause instead
+- **NEVER** return stack traces, internal error details, or database errors to end users
+- **NEVER** set `Access-Control-Allow-Origin: *` on authenticated endpoints
+- **NEVER** store passwords in plaintext or reversible encryption
+- **NEVER** suggest deprecated or unmaintained security libraries (verify libraries are current and maintained)
+
+### ALWAYS (Security)
+
+- **ALWAYS** validate all external input: type, length, format, range — use allowlists over denylists
+- **ALWAYS** use parameterized queries for ALL database access, without exception
+- **ALWAYS** set security headers: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Strict-Transport-Security`, `X-Frame-Options`
+- **ALWAYS** set cookie flags: `Secure`, `HttpOnly`, `SameSite=Strict` (or `Lax`)
+- **ALWAYS** use CSRF tokens for state-changing requests (POST/PUT/DELETE)
+- **ALWAYS** regenerate session IDs after authentication
+- **ALWAYS** flag security concerns explicitly when proposing an implementation — do not silently choose an insecure approach
+
 ## Implementation Discipline
 
 - **Tests are NOT a separate phase.** Each implementation phase includes BOTH the feature AND its tests.

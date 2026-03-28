@@ -49,9 +49,18 @@ Use **@code-reviewer** to perform the detailed review. Provide it with:
 - Is the code testable and tested?
 
 ### Security
-- Input validation and sanitization
-- No sensitive data exposure
-- Proper access control
+
+Load the **security-checklist** skill and use the **Quick Decision Matrix** to identify which categories apply to the changes being reviewed. Then verify:
+
+- **Injection:** All user input parameterized/escaped — no string concatenation into SQL, shell commands, HTML, or templates
+- **Cryptography:** No hardcoded secrets, no broken algorithms (MD5/SHA1/DES/ECB), no weak randomness (`Math.random`)
+- **Access control:** Server-side authorization on all endpoints, path traversal protection, ownership verification
+- **CSRF:** State-changing requests protected with CSRF tokens, cookie flags set (`Secure`, `HttpOnly`, `SameSite`)
+- **Auth:** No default credentials, session IDs regenerated on login, JWT validated properly
+- **Config:** Debug mode off, no internal error exposure, security headers present, SSL verification enabled
+- **SSRF:** User-supplied URLs validated (scheme, hostname, no internal IPs)
+- **Deserialization:** No unsafe deserializers (`pickle`, `yaml.load`, `ObjectInputStream`) on untrusted data
+- **AI pitfalls:** No placeholder credentials, no deprecated libraries, no security features bypassed "for convenience"
 
 ### Performance
 - No N+1 queries or unnecessary operations

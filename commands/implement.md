@@ -25,16 +25,24 @@ Use `todowrite` to track progress across phases.
 ### For Each Phase:
 
 1. **Read the phase requirements** from the plan
-2. **Implement the changes** listed in the phase
+2. **Security pre-check** — Load the **security-checklist** skill and identify which categories apply to this phase using the Quick Decision Matrix. Keep the relevant rules in mind while implementing.
+3. **Implement the changes** listed in the phase
    - Follow patterns identified in the research document
    - Include tests as part of the phase (not separately)
-3. **Run verification** — execute the automated success criteria:
+   - For security-relevant code: follow the secure patterns from the checklist, not the convenient ones
+4. **Run verification** — execute the automated success criteria:
    - Run tests
    - Run linter/code style checks
    - Run build if applicable
-4. **Check off completed items** in the plan file (update the checkboxes)
-5. **Commit** with a conventional commit message referencing the ticket ID
-6. **Move to the next phase**
+5. **Security post-check** — Before committing, verify against the security checklist:
+   - No hardcoded secrets, API keys, or passwords
+   - All user input parameterized/escaped (no string concatenation into queries/commands/HTML)
+   - Authorization checks present on new endpoints
+   - No disabled security features (`verify=False`, missing CSRF, permissive CORS)
+   - Error responses don't leak internals
+6. **Check off completed items** in the plan file (update the checkboxes)
+7. **Commit** with a conventional commit message referencing the ticket ID
+8. **Move to the next phase**
 
 ### If Something Goes Wrong
 

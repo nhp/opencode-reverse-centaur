@@ -54,6 +54,18 @@ If the ticket involves external libraries, APIs, or unfamiliar technology, use *
 
 3. **Don't skip steps.** Even if the topic seems simple, run the locator first. You might discover code you didn't expect.
 
+## Security Assessment
+
+Before writing the research document, evaluate the security surface of the feature being researched. Load the **security-checklist** skill and use the **Quick Decision Matrix** to identify which security categories apply.
+
+Document in the research output:
+- Which security categories are relevant to this feature
+- Existing security patterns in the codebase (how does the project currently handle input validation, authentication, query parameterization, etc.)
+- Any existing security vulnerabilities or weak patterns in the code being analyzed
+- Security constraints that must be respected during implementation
+
+If the feature involves user input, authentication, file handling, API endpoints, or database queries, this section is **mandatory** — do not skip it.
+
 ## Output
 
 Load the **research-document** skill for the output template.

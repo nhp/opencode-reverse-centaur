@@ -37,6 +37,18 @@ Review the staged diff for:
 - Incomplete changes (half-finished refactoring, TODO comments that should be addressed)
 - Files that don't belong in this commit (separate concerns → separate commits)
 
+### Security Pre-flight
+
+Scan the staged diff for these security anti-patterns. **If any are found, fix before committing:**
+- Hardcoded secrets, API keys, passwords, or tokens (including "example" values like `password123`, `changeme`, `sk-xxx`)
+- SQL/command string concatenation with variables (must use parameterized queries)
+- `eval()`, `exec()`, `system()`, or `Function()` with non-static input
+- `innerHTML` or `dangerouslySetInnerHTML` with user-controlled data
+- `verify=False`, `shell=True`, `debug=True`, or other disabled security features
+- Missing CSRF protection on state-changing endpoints
+- Stack traces or internal errors exposed in response bodies
+- Files that should be in `.gitignore` (`.env`, private keys, credential files)
+
 ## Step 4: Ticket Status Check
 
 Check if any staged files or recent commits reference a ticket ID. If so:

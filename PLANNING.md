@@ -78,6 +78,7 @@ opencode-template/
 | Template extraction | Skills for research-document and implementation-plan | Saves tokens — loaded on demand instead of embedded in every command invocation. |
 | Scaffold command | `/init-workflow PREFIX` | Creates dirs, copies scripts, writes `.ticket-prefix`, generates starter `AGENTS.md`. |
 | AGENTS.md generation | Starter template with common sections | Only if no AGENTS.md exists. |
+| Security awareness | Layered: AGENTS.md rules + security-checklist skill + command gates | AGENTS.md has always-on NEVER/ALWAYS rules (OWASP-inspired + AI-specific). Security skill loaded on demand by /research, /plan, /implement, /review. Commands embed security checkpoints at each workflow stage. /commit has a security pre-flight scan. |
 
 ## Component Inventory
 
@@ -107,12 +108,13 @@ opencode-template/
 | `agents/web-search-researcher.md` | subagent | [ ] | webfetch, websearch, read, grep, glob, todowrite | edit, write | Web research specialist. Preferred/excluded source lists. |
 | `agents/code-reviewer.md` | subagent | [ ] | read, grep, glob, list, lsp | edit, write | Migrated from inline `opencode.json` definition. Full review prompt. |
 
-### Skills (2 directories)
+### Skills (3 directories)
 
 | Skill | Status | Contents | Loaded By |
 |-------|--------|----------|-----------|
 | `skills/research-document/SKILL.md` | [ ] | Research document YAML template, output format spec, section descriptions, quality checklist | `/research` command |
 | `skills/implementation-plan/SKILL.md` | [ ] | Plan template structure, phase format, success criteria (automated vs manual), review checklist | `/plan` command |
+| `skills/security-checklist/SKILL.md` | [ ] | OWASP/CWE-based security checklist with 9 categories, decision matrix, secure vs insecure patterns | `/research`, `/plan`, `/implement`, `/review` commands |
 
 ### Plugin (1 file)
 
