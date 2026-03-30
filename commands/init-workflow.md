@@ -53,12 +53,31 @@ Ask the user if they want to use a **user acronym** for branch naming. Explain:
 
 ## Step 3: Copy Scripts
 
-Copy the 3 scripts from the template skeleton into `scripts/`:
+Copy the scripts from the template skeleton into `scripts/`:
 - `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/ticket.sh` → `scripts/ticket.sh`
 - `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/next-ticket.sh` → `scripts/next-ticket.sh`
 - `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/open_tickets.sh` → `scripts/open_tickets.sh`
+- `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/credentials.sh` → `scripts/credentials.sh`
 
 Make them executable: `chmod +x scripts/*.sh`
+
+## Step 3b: Credentials Setup (optional)
+
+Copy the credentials example file:
+- `$OPENCODE_TEMPLATE_DIR/thoughts/.credentials.example` → `thoughts/.credentials.example`
+
+Ask the user if they want to set up project credentials now. Explain:
+> The credentials file (`thoughts/.credentials`) stores login credentials, API keys, and other secrets in TOML format. It's gitignored and accessed via `./scripts/credentials.sh` — the agent never reads the file directly.
+>
+> Example format:
+> ```toml
+> [basic-auth]
+> username = "joe"
+> password = "doe"
+> ```
+
+- If yes: copy `thoughts/.credentials.example` to `thoughts/.credentials` and let the user edit it.
+- If no: skip. They can set it up later by copying the example file.
 
 ## Step 4: Symlink AGENTS-base.md
 
@@ -101,13 +120,16 @@ Workflow initialized with prefix: [PREFIX]
 Created:
   thoughts/shared/{tickets,discussions,plans,research,reviews}/
   thoughts/.ticket-prefix
+  thoughts/.credentials.example
   [thoughts/.user-acronym (if configured)]
-  scripts/{ticket.sh,next-ticket.sh,open_tickets.sh}
+  [thoughts/.credentials (if configured)]
+  scripts/{ticket.sh,next-ticket.sh,open_tickets.sh,credentials.sh}
   AGENTS-base.md → $OPENCODE_TEMPLATE_DIR/AGENTS-base.md (symlink)
   [AGENTS.md (if generated)]
 
 Next steps:
   1. Customize AGENTS.md for your project
-  2. Create your first ticket: /create-ticket
-  3. View open tickets: run ./scripts/open_tickets.sh
+  2. Set up credentials: cp thoughts/.credentials.example thoughts/.credentials
+  3. Create your first ticket: /create-ticket
+  4. View open tickets: run ./scripts/open_tickets.sh
 ```

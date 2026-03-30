@@ -14,7 +14,7 @@ Inspired and adapted from [Tobi Schlitt: context-engineering for LLM coding](htt
 | **Agents**   | 7     | Specialized subagents for codebase analysis, pattern finding, documentation, web research, and code review                    |
 | **Skills**   | 2     | Lazy-loaded templates for research documents and implementation plans                                                         |
 | **Plugin**   | 1     | Ticket status reminders on git operations + desktop notifications                                                             |
-| **Scripts**  | 3     | Ticket management utilities (find, number, list)                                                                              |
+| **Scripts**  | 4     | Ticket management utilities + credentials access                                                                              |
 
 ## Prerequisites
 
@@ -106,6 +106,30 @@ For projects using Jira, `/ticket-from-jira` imports tickets into the same local
 ./scripts/open_tickets.sh         # List open/in-progress tickets
 ```
 
+### Credentials Management
+
+Store project credentials in `thoughts/.credentials` (TOML format, gitignored). Supports multiple named credential sets:
+
+```toml
+[basic-auth]
+username = "joe"
+password = "doe"
+
+[frontend]
+username = "jane"
+password = "doe"
+```
+
+Access via `scripts/credentials.sh` — the agent never reads the raw file directly:
+
+```bash
+./scripts/credentials.sh                      # List credential sets
+./scripts/credentials.sh basic-auth           # List keys in a set
+./scripts/credentials.sh basic-auth username  # Get a specific value
+```
+
+Set up by copying the example: `cp thoughts/.credentials.example thoughts/.credentials`
+
 ## Agents
 
 All subagents follow a strict "documentarian" rule — they describe what exists without suggesting improvements or expressing opinions.
@@ -135,9 +159,12 @@ All subagents follow a strict "documentarian" rule — they describe what exists
 ├── scripts/                   # Ticket management scripts
 │   ├── ticket.sh
 │   ├── next-ticket.sh
-│   └── open_tickets.sh
+│   ├── open_tickets.sh
+│   └── credentials.sh
 └── thoughts/
     ├── .ticket-prefix         # e.g., "PROJ"
+    ├── .credentials.example   # Credentials format template
+    ├── .credentials           # Your credentials (gitignored)
     └── shared/
         ├── tickets/           # Ticket definitions
         ├── research/          # Codebase research documents
