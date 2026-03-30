@@ -66,6 +66,18 @@ Refs: TICKET-IDs
 - **ALWAYS** regenerate session IDs after authentication
 - **ALWAYS** flag security concerns explicitly when proposing an implementation — do not silently choose an insecure approach
 
+## Credentials
+
+Project credentials are stored in `thoughts/.credentials` (TOML format, gitignored). Access them via the credentials script — **never** read the file directly.
+
+```bash
+./scripts/credentials.sh                    # List available credential sets
+./scripts/credentials.sh basic-auth         # List all keys in a set
+./scripts/credentials.sh basic-auth username # Get a specific value
+```
+
+When you need credentials for a task (e.g., API calls, login, curl commands), use the script to retrieve them. If the credentials file is missing, tell the user to create one from `thoughts/.credentials.example`.
+
 ## Implementation Discipline
 
 - **Tests are NOT a separate phase.** Each implementation phase includes BOTH the feature AND its tests.
