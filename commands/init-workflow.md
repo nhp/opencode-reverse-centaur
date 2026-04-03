@@ -26,10 +26,11 @@ thoughts/shared/discussions/
 thoughts/shared/plans/
 thoughts/shared/research/
 thoughts/shared/reviews/
+thoughts/.secrets/
 scripts/
 ```
 
-Create `.gitkeep` files in each `thoughts/shared/` subdirectory.
+Create `.gitkeep` files in each `thoughts/shared/` subdirectory and in `thoughts/.secrets/`.
 
 ## Step 2: Write Ticket Prefix
 
@@ -66,18 +67,55 @@ Make them executable: `chmod +x scripts/*.sh`
 Copy the credentials example file:
 - `$OPENCODE_TEMPLATE_DIR/thoughts/.credentials.example` → `thoughts/.credentials.example`
 
+Copy the secrets example file:
+- `$OPENCODE_TEMPLATE_DIR/project-skeleton/thoughts/.secrets.example` → `thoughts/.secrets.example`
+
 Ask the user if they want to set up project credentials now. Explain:
-> The credentials file (`thoughts/.credentials`) stores login credentials, API keys, and other secrets in TOML format. It's gitignored and accessed via `./scripts/credentials.sh` — the agent never reads the file directly.
+> There are two credential systems:
 >
-> Example format:
+> **1. Agent credentials** (`thoughts/.credentials`) — TOML format for agent runtime access via `./scripts/credentials.sh`. Used for login credentials, API keys the agent needs during tasks.
+>
+> **2. MCP server secrets** (`thoughts/.secrets/`) — Individual files for OpenCode config `{file:...}` substitution. Used to provide credentials to MCP servers in `opencode.json`.
+>
+> Example TOML format (thoughts/.credentials):
 > ```toml
 > [basic-auth]
 > username = "joe"
 > password = "doe"
 > ```
+>
+> Example secrets files (thoughts/.secrets/):
+> ```
+> echo -n "your-email@example.com" > thoughts/.secrets/atlassian-email
+> echo -n "your-api-token"         > thoughts/.secrets/atlassian-api-token
+> ```
 
-- If yes: copy `thoughts/.credentials.example` to `thoughts/.credentials` and let the user edit it.
-- If no: skip. They can set it up later by copying the example file.
+- If yes: copy `thoughts/.credentials.example` to `thoughts/.credentials` and let the user edit it. Ask which MCP servers they want to configure and create the corresponding secret files.
+- If no: skip. They can set it up later by copying the example files.
+
+## Step 3c: Project Config (opencode.json)
+
+Copy the project-level OpenCode config example:
+- `$OPENCODE_TEMPLATE_DIR/project-skeleton/opencode.json.example` → `opencode.json.example`
+
+Check if an `opencode.json` file exists in the project root.
+
+- **If it exists:** Skip. Tell the user their existing config is preserved. Remind them they can reference `opencode.json.example` for the MCP server configuration pattern.
+- **If it doesn't exist:** Copy `opencode.json.example` to `opencode.json`. Tell the user to review and customize it — enable only the MCP servers they need and populate `thoughts/.secrets/` with the corresponding credential files.
+
+Explain the layered config pattern:
+> OpenCode merges configs from multiple locations. Your global config (`~/.config/opencode/opencode.json`) defines all MCP servers with project-specific ones disabled. This project-level config enables specific servers and points their credentials to gitignored files in `thoughts/.secrets/`.
+>
+> See `opencode.json.global.example` in the template repo for the global config pattern.
+
+## Step 3d: Thoughts .gitignore
+
+Copy the thoughts gitignore:
+- `$OPENCODE_TEMPLATE_DIR/project-skeleton/thoughts/.gitignore` → `thoughts/.gitignore`
+
+This ensures `.ticket-prefix`, `.user-acronym`, `.credentials`, and `.secrets/*` contents are gitignored while keeping the `.secrets/.gitkeep` tracked.
+
+**If the file already exists:** Check if it already covers `.secrets/*`. If not, suggest appending the missing patterns.
 
 ## Step 4: Symlink AGENTS-base.md
 
@@ -120,16 +158,23 @@ Workflow initialized with prefix: [PREFIX]
 Created:
   thoughts/shared/{tickets,discussions,plans,research,reviews}/
   thoughts/.ticket-prefix
+  thoughts/.gitignore
   thoughts/.credentials.example
+  thoughts/.secrets.example
+  thoughts/.secrets/.gitkeep
   [thoughts/.user-acronym (if configured)]
   [thoughts/.credentials (if configured)]
   scripts/{ticket.sh,next-ticket.sh,open_tickets.sh,credentials.sh}
+  opencode.json.example
+  [opencode.json (if generated)]
   AGENTS-base.md → $OPENCODE_TEMPLATE_DIR/AGENTS-base.md (symlink)
   [AGENTS.md (if generated)]
 
 Next steps:
   1. Customize AGENTS.md for your project
-  2. Set up credentials: cp thoughts/.credentials.example thoughts/.credentials
-  3. Create your first ticket: /create-ticket
-  4. View open tickets: run ./scripts/open_tickets.sh
+  2. Review opencode.json — enable MCP servers you need
+  3. Set up MCP secrets: see thoughts/.secrets.example
+  4. Set up agent credentials: cp thoughts/.credentials.example thoughts/.credentials
+  5. Create your first ticket: /create-ticket
+  6. View open tickets: run ./scripts/open_tickets.sh
 ```

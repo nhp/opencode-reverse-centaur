@@ -106,21 +106,19 @@ For projects using Jira, `/ticket-from-jira` imports tickets into the same local
 ./scripts/open_tickets.sh         # List open/in-progress tickets
 ```
 
-### Credentials Management
+### Credentials & Secrets
 
-Store project credentials in `thoughts/.credentials` (TOML format, gitignored). Supports multiple named credential sets:
+There are two credential systems, each serving a different purpose:
+
+#### Agent Credentials (`thoughts/.credentials`)
+
+TOML file for agent runtime access via `scripts/credentials.sh`. Used when the agent needs login credentials, API keys, or other secrets during tasks.
 
 ```toml
 [basic-auth]
 username = "joe"
 password = "doe"
-
-[frontend]
-username = "jane"
-password = "doe"
 ```
-
-Access via `scripts/credentials.sh` — the agent never reads the raw file directly:
 
 ```bash
 ./scripts/credentials.sh                      # List credential sets
@@ -129,6 +127,42 @@ Access via `scripts/credentials.sh` — the agent never reads the raw file direc
 ```
 
 Set up by copying the example: `cp thoughts/.credentials.example thoughts/.credentials`
+
+#### MCP Server Secrets (`thoughts/.secrets/`)
+
+Individual files for OpenCode config `{file:...}` substitution. Used to provide credentials to MCP servers configured in `opencode.json`. Each file contains a single value, no quotes, no trailing newline.
+
+```bash
+echo -n "your-email@example.com" > thoughts/.secrets/atlassian-email
+echo -n "your-api-token"         > thoughts/.secrets/atlassian-api-token
+```
+
+Referenced in `opencode.json`:
+```jsonc
+"environment": {
+  "ATLASSIAN_USER_EMAIL": "{file:thoughts/.secrets/atlassian-email}",
+  "ATLASSIAN_API_TOKEN": "{file:thoughts/.secrets/atlassian-api-token}"
+}
+```
+
+See `thoughts/.secrets.example` for a full list of supported files.
+
+### Configuration (Global vs Project)
+
+OpenCode merges configs from multiple locations. This template uses a two-layer pattern:
+
+**Global config** (`~/.config/opencode/opencode.json`) — defines all MCP servers. Servers used everywhere (e.g., Playwright) are enabled. Project-specific servers (Jira, Kibana, Magento) are disabled by default.
+
+**Project config** (`<project>/opencode.json`) — enables specific servers per project and provides credentials via `{file:...}` references to gitignored files in `thoughts/.secrets/`.
+
+See `opencode.json.global.example` for the global config pattern and `project-skeleton/opencode.json.example` for the project-level pattern.
+
+Config precedence (highest to lowest):
+1. Project config (`opencode.json` in project root)
+2. Global config (`~/.config/opencode/opencode.json`)
+3. Remote config (organizational defaults)
+
+See [OpenCode Config docs](https://opencode.ai/docs/config/) for full details.
 
 ## Agents
 
@@ -148,13 +182,15 @@ All subagents follow a strict "documentarian" rule — they describe what exists
 
 ```
 ~/.config/opencode/
-├── opencode.json              # Your private config (not managed by this repo)
+├── opencode.json              # Your global config (not managed by this repo)
 ├── commands/ -> repo/commands/ # Symlink
 ├── agents/  -> repo/agents/   # Symlink
 ├── skills/  -> repo/skills/   # Symlink
 └── plugins/ -> repo/plugins/  # Symlink
 
 <your-project>/
+├── opencode.json              # Project-level config (MCP overrides, credentials)
+├── opencode.json.example      # Reference for project config structure
 ├── AGENTS.md                  # Project-specific instructions
 ├── scripts/                   # Ticket management scripts
 │   ├── ticket.sh
@@ -163,8 +199,13 @@ All subagents follow a strict "documentarian" rule — they describe what exists
 │   └── credentials.sh
 └── thoughts/
     ├── .ticket-prefix         # e.g., "PROJ"
-    ├── .credentials.example   # Credentials format template
-    ├── .credentials           # Your credentials (gitignored)
+    ├── .credentials.example   # Agent credentials format template
+    ├── .credentials           # Agent credentials (gitignored)
+    ├── .secrets.example       # MCP secrets format template
+    ├── .secrets/              # MCP server secrets (gitignored)
+    │   ├── .gitkeep
+    │   ├── atlassian-email    # One value per file
+    │   └── atlassian-api-token
     └── shared/
         ├── tickets/           # Ticket definitions
         ├── research/          # Codebase research documents

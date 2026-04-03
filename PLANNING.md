@@ -20,7 +20,7 @@ opencode-template/
 ├── PLANNING.md                           # This document
 ├── .gitignore
 ├── install.sh                            # Symlinks to ~/.config/opencode/
-├── opencode.json.example                 # Config structure, no credentials
+├── opencode.json.global.example           # Global config: all MCP servers, project-specific disabled
 ├── AGENTS.md.example                     # Starter template for new projects
 ├── commands/
 │   ├── create-ticket.md
@@ -48,11 +48,16 @@ opencode-template/
 ├── plugins/
 │   └── ticket-reminder.ts
 └── project-skeleton/                     # Copied per-project by /init-workflow
+    ├── opencode.json.example             # Project-level config: MCP overrides + file-based credentials
     ├── scripts/
     │   ├── ticket.sh
     │   ├── next-ticket.sh
     │   └── open_tickets.sh
     └── thoughts/
+        ├── .gitignore                    # Ignores .secrets/*, .credentials, .ticket-prefix, .user-acronym
+        ├── .secrets.example              # Documents which secret files to create
+        ├── .secrets/
+        │   └── .gitkeep
         └── shared/
             ├── tickets/.gitkeep
             ├── discussions/.gitkeep
@@ -79,6 +84,8 @@ opencode-template/
 | Scaffold command | `/init-workflow PREFIX` | Creates dirs, copies scripts, writes `.ticket-prefix`, generates starter `AGENTS.md`. |
 | AGENTS.md split | `AGENTS-base.md` (symlinked, universal) + `AGENTS.md` (copied, project-specific) | Universal rules (security, git discipline, conventions) update automatically via symlink. Project-specific config (tech stack, persona, commands) stays per-project. |
 | Security awareness | Layered: AGENTS.md rules + security-checklist skill + command gates | AGENTS.md has always-on NEVER/ALWAYS rules (OWASP-inspired + AI-specific). Security skill loaded on demand by /research, /plan, /implement, /review. Commands embed security checkpoints at each workflow stage. /commit has a security pre-flight scan. |
+| Config layering | Global config (all MCP servers, project-specific disabled) + project config (enables specific servers with credentials) | Different projects need different MCP servers with different credentials. Global defines the catalog, project enables what it needs. |
+| MCP credentials | `thoughts/.secrets/` with one file per value, referenced via `{file:...}` in `opencode.json` | OpenCode's native `{file:path}` substitution. Avoids env var management. Gitignored. Separate from TOML `.credentials` (agent runtime) to avoid naming conflict (file vs directory). |
 
 ## Component Inventory
 
@@ -138,7 +145,7 @@ opencode-template/
 | `PLANNING.md` | [x] | This document |
 | `.gitignore` | [x] | Defensive credential blocking |
 | `install.sh` | [x] | Symlink creation script |
-| `opencode.json.example` | [x] | Config structure with placeholders |
+| `opencode.json.global.example` | [x] | Global config: all MCP servers defined, project-specific disabled |
 | `AGENTS.md.example` | [x] | Starter template for `/init-workflow` |
 | `README.md` | [ ] | Public docs — last, after all components exist |
 

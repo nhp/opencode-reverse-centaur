@@ -5,6 +5,8 @@ opencode.json
 *.credentials
 *.key
 *.pem
+.secrets/*
+!.secrets/.gitkeep
 
 # Per-project config (contains project-specific prefix and user settings)
 .ticket-prefix

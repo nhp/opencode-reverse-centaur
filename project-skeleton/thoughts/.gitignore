@@ -1,0 +1,8 @@
+# Per-project config (set during /init-workflow)
+.ticket-prefix
+.user-acronym
+
+# Credentials — NEVER commit
+*.credentials
+.secrets/*
+!.secrets/.gitkeep

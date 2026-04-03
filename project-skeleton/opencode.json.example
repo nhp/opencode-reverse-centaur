@@ -1,0 +1,47 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // ── Project-Level MCP Overrides ───────────────────────────────────
+  // This file merges with your global config (~/.config/opencode/opencode.json).
+  // Only include settings that differ from the global config.
+  //
+  // MCP servers defined globally with "enabled": false can be enabled
+  // here per project. Credentials use {file:...} substitution to read
+  // from gitignored files in thoughts/.secrets/.
+  //
+  // See: https://opencode.ai/docs/config/#per-project
+  "mcp": {
+
+    // Enable Jira for this project (uses OAuth, no credentials needed)
+    "jira": {
+      "enabled": true
+    },
+
+    // Enable Bitbucket with project-specific credentials
+    "bitbucket": {
+      "enabled": true,
+      "environment": {
+        "ATLASSIAN_USER_EMAIL": "{file:thoughts/.secrets/atlassian-email}",
+        "ATLASSIAN_API_TOKEN": "{file:thoughts/.secrets/atlassian-api-token}"
+      }
+    },
+
+    // Enable Kibana with project-specific credentials
+    "kibana": {
+      "enabled": true,
+      "environment": {
+        "KIBANA_HOST": "{file:thoughts/.secrets/kibana-url}",
+        "KIBANA_API_KEY": "{file:thoughts/.secrets/kibana-api-key}"
+      }
+    }
+
+    // Magento 2 — uncomment to enable:
+    // "magento2": {
+    //   "enabled": true,
+    //   "environment": {
+    //     "MAGENTO_BASE_URL": "{file:thoughts/.secrets/magento-url}",
+    //     "MAGENTO_ACCESS_TOKEN": "{file:thoughts/.secrets/magento-token}"
+    //   }
+    // }
+  }
+}
