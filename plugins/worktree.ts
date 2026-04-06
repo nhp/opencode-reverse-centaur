@@ -1,4 +1,4 @@
-import type { Plugin } from "@opencode-ai/plugin"
+import { type Plugin, tool } from "@opencode-ai/plugin"
 import * as path from "node:path"
 import * as fs from "node:fs"
 import * as os from "node:os"
@@ -57,6 +57,48 @@ function isPathSafe(base: string, target: string): boolean {
   return resolved.startsWith(path.resolve(base))
 }
 
+/**
+ * Sync gitignored files from the main repo to the worktree.
+ * - Symlinks thoughts/.secrets/ (shared state, single source of truth)
+ * - Copies thoughts/.credentials (independent per worktree)
+ * - Copies thoughts/.ticket-prefix and .user-acronym (gitignored config)
+ */
+function syncGitignoredFiles(mainDir: string, worktreeDir: string): void {
+  // Symlink thoughts/.secrets/ (shared state)
+  const secretsSrc = path.join(mainDir, "thoughts", ".secrets")
+  const secretsDst = path.join(worktreeDir, "thoughts", ".secrets")
+  if (fs.existsSync(secretsSrc)) {
+    try {
+      if (fs.existsSync(secretsDst)) {
+        fs.rmSync(secretsDst, { recursive: true })
+      }
+      fs.mkdirSync(path.dirname(secretsDst), { recursive: true })
+      fs.symlinkSync(secretsSrc, secretsDst, "dir")
+    } catch {
+      // Non-fatal — secrets may not be needed
+    }
+  }
+
+  // Copy individual gitignored files
+  const filesToCopy = [
+    "thoughts/.credentials",
+    "thoughts/.ticket-prefix",
+    "thoughts/.user-acronym",
+  ]
+  for (const file of filesToCopy) {
+    const src = path.join(mainDir, file)
+    const dst = path.join(worktreeDir, file)
+    if (fs.existsSync(src)) {
+      try {
+        fs.mkdirSync(path.dirname(dst), { recursive: true })
+        fs.copyFileSync(src, dst)
+      } catch {
+        // Non-fatal
+      }
+    }
+  }
+}
+
 // ── Plugin ──────────────────────────────────────────────────────────
 
 export default (async ({ $, directory }) => {
@@ -64,41 +106,32 @@ export default (async ({ $, directory }) => {
 
   return {
     tool: {
-      worktree_create: {
+      worktree_create: tool({
         description:
           "Create a git worktree for a ticket. Generates a branch name from the ticket ID " +
-          "and description following the project's naming convention. Symlinks secrets and " +
-          "copies credentials to the new worktree. Returns the path to navigate to.",
-        parameters: {
-          type: "object" as const,
-          properties: {
-            ticketId: {
-              type: "string",
-              description:
-                "Ticket ID (e.g., PROJ-0001). Used in branch name.",
-            },
-            description: {
-              type: "string",
-              description:
-                'Short description for the branch name (e.g., "add-dark-mode").',
-            },
-            type: {
-              type: "string",
-              description:
-                'Branch type prefix. Defaults to "feature".',
-              enum: ["feature", "bugfix", "hotfix", "refactor", "chore"],
-            },
-          },
-          required: ["ticketId", "description"],
+          "and description following the project's naming convention " +
+          "(type/acronym/ticket-id/description). Symlinks secrets and copies credentials " +
+          "to the new worktree. Returns the path for the user to navigate to.",
+        args: {
+          ticketId: tool.schema
+            .string()
+            .describe("Ticket ID (e.g., PROJ-0001). Used in branch name."),
+          description: tool.schema
+            .string()
+            .describe(
+              'Short description for the branch name (e.g., "add-dark-mode").',
+            ),
+          type: tool.schema
+            .enum(["feature", "bugfix", "hotfix", "refactor", "chore"])
+            .optional()
+            .default("feature")
+            .describe('Branch type prefix. Defaults to "feature".'),
         },
-        async execute(args: {
-          ticketId: string
-          description: string
-          type?: string
-        }) {
-          const branchType = args.type || "feature"
+        async execute(args, context) {
+          const dir = context.directory
+          const branchType = args.type
           const acronym = readTrimmedFile(
-            path.join(directory, "thoughts", ".user-acronym"),
+            path.join(dir, "thoughts", ".user-acronym"),
           )
           const descSlug = sanitizeBranchSegment(args.description)
 
@@ -121,7 +154,7 @@ export default (async ({ $, directory }) => {
           }
 
           // Check if branch already exists as a worktree
-          const listResult = await $`git -C ${directory} worktree list --porcelain`
+          const listResult = await $`git -C ${dir} worktree list --porcelain`
             .quiet()
             .nothrow()
             .text()
@@ -135,7 +168,7 @@ export default (async ({ $, directory }) => {
 
           // Create worktree with new branch
           const createResult =
-            await $`git -C ${directory} worktree add ${worktreePath} -b ${branch}`
+            await $`git -C ${dir} worktree add ${worktreePath} -b ${branch}`
               .quiet()
               .nothrow()
 
@@ -144,49 +177,8 @@ export default (async ({ $, directory }) => {
             return `Error creating worktree: ${stderr}`
           }
 
-          // ── Sync gitignored files ──
-
-          // Symlink thoughts/.secrets/ (shared state)
-          const secretsSrc = path.join(directory, "thoughts", ".secrets")
-          const secretsDst = path.join(worktreePath, "thoughts", ".secrets")
-          if (fs.existsSync(secretsSrc)) {
-            try {
-              // Remove the directory that git checkout created (if any)
-              if (fs.existsSync(secretsDst)) {
-                fs.rmSync(secretsDst, { recursive: true })
-              }
-              fs.mkdirSync(path.dirname(secretsDst), { recursive: true })
-              fs.symlinkSync(secretsSrc, secretsDst, "dir")
-            } catch (e: any) {
-              // Non-fatal — secrets may not be needed
-            }
-          }
-
-          // Copy thoughts/.credentials (independent per worktree)
-          const credsSrc = path.join(directory, "thoughts", ".credentials")
-          const credsDst = path.join(worktreePath, "thoughts", ".credentials")
-          if (fs.existsSync(credsSrc)) {
-            try {
-              fs.mkdirSync(path.dirname(credsDst), { recursive: true })
-              fs.copyFileSync(credsSrc, credsDst)
-            } catch {
-              // Non-fatal
-            }
-          }
-
-          // Copy thoughts/.ticket-prefix and .user-acronym (gitignored)
-          for (const file of [".ticket-prefix", ".user-acronym"]) {
-            const src = path.join(directory, "thoughts", file)
-            const dst = path.join(worktreePath, "thoughts", file)
-            if (fs.existsSync(src)) {
-              try {
-                fs.mkdirSync(path.dirname(dst), { recursive: true })
-                fs.copyFileSync(src, dst)
-              } catch {
-                // Non-fatal
-              }
-            }
-          }
+          // Sync gitignored files
+          syncGitignoredFiles(dir, worktreePath)
 
           return [
             `Worktree created successfully.`,
@@ -203,17 +195,15 @@ export default (async ({ $, directory }) => {
             `Run /commit before deleting the worktree.`,
           ].join("\n")
         },
-      },
+      }),
 
-      worktree_list: {
+      worktree_list: tool({
         description:
           "List all active git worktrees for this project with their branches and paths.",
-        parameters: {
-          type: "object" as const,
-          properties: {},
-        },
-        async execute() {
-          const result = await $`git -C ${directory} worktree list`
+        args: {},
+        async execute(_args, context) {
+          const dir = context.directory
+          const result = await $`git -C ${dir} worktree list`
             .quiet()
             .nothrow()
             .text()
@@ -223,30 +213,29 @@ export default (async ({ $, directory }) => {
 
           return `Active worktrees:\n\n${lines}`
         },
-      },
+      }),
 
-      worktree_delete: {
+      worktree_delete: tool({
         description:
           "Remove a git worktree. By default does NOT auto-commit — run /commit first. " +
           "Use snapshot=true for a safety snapshot commit before removal.",
-        parameters: {
-          type: "object" as const,
-          properties: {
-            worktreePath: {
-              type: "string",
-              description:
-                "Path to the worktree to remove. Use worktree_list to find paths.",
-            },
-            snapshot: {
-              type: "boolean",
-              description:
-                'If true, runs "git add -A && git commit" with a snapshot message before removal. ' +
-                "Default: false (run /commit manually first).",
-            },
-          },
-          required: ["worktreePath"],
+        args: {
+          worktreePath: tool.schema
+            .string()
+            .describe(
+              "Path to the worktree to remove. Use worktree_list to find paths.",
+            ),
+          snapshot: tool.schema
+            .boolean()
+            .optional()
+            .default(false)
+            .describe(
+              'If true, runs "git add -A && git commit" with a snapshot message before removal. ' +
+              "Default: false (run /commit manually first).",
+            ),
         },
-        async execute(args: { worktreePath: string; snapshot?: boolean }) {
+        async execute(args, context) {
+          const dir = context.directory
           const targetPath = args.worktreePath
 
           // Validate the path exists and is a worktree
@@ -287,7 +276,7 @@ export default (async ({ $, directory }) => {
 
           // Remove the worktree
           const removeResult =
-            await $`git -C ${directory} worktree remove ${targetPath} --force`
+            await $`git -C ${dir} worktree remove ${targetPath} --force`
               .quiet()
               .nothrow()
 
@@ -307,7 +296,7 @@ export default (async ({ $, directory }) => {
             `To delete: git branch -d ${branch}`,
           ].join("\n")
         },
-      },
+      }),
     },
   }
 }) satisfies Plugin
