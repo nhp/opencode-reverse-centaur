@@ -46,14 +46,14 @@ opencode-template/
 │   └── implementation-plan/
 │       └── SKILL.md
 ├── plugins/
-│   ├── ticket-reminder.ts
-│   └── worktree.ts                       # Git worktree tools for parallel sessions
+│   └── ticket-reminder.ts
 └── project-skeleton/                     # Copied per-project by /init-workflow
     ├── opencode.json.example             # Project-level config: MCP overrides + file-based credentials
     ├── scripts/
     │   ├── ticket.sh
     │   ├── next-ticket.sh
-    │   └── open_tickets.sh
+    │   ├── open_tickets.sh
+    │   └── worktree.sh                   # Git worktree create/list/delete for parallel sessions
     └── thoughts/
         ├── .gitignore                    # Ignores .secrets/*, .credentials, .ticket-prefix, .user-acronym
         ├── .secrets.example              # Documents which secret files to create
@@ -87,8 +87,8 @@ opencode-template/
 | Security awareness | Layered: AGENTS.md rules + security-checklist skill + command gates | AGENTS.md has always-on NEVER/ALWAYS rules (OWASP-inspired + AI-specific). Security skill loaded on demand by /research, /plan, /implement, /review. Commands embed security checkpoints at each workflow stage. /commit has a security pre-flight scan. |
 | Config layering | Global config (all MCP servers, project-specific disabled) + project config (enables specific servers with credentials) | Different projects need different MCP servers with different credentials. Global defines the catalog, project enables what it needs. |
 | MCP credentials | `thoughts/.secrets/` with one file per value, referenced via `{file:...}` in `opencode.json` | OpenCode's native `{file:path}` substitution. Avoids env var management. Gitignored. Separate from TOML `.credentials` (agent runtime) to avoid naming conflict (file vs directory). |
-| Git worktrees | Custom plugin (`plugins/worktree.ts`) over vendored 3rd-party | Zero dependencies, supply chain safety, ticket-aware branch naming, `/commit` integration. No auto-push, no auto-commit by default. |
-| Worktree file sync | Symlink `.secrets/`, copy `.credentials` + gitignored config | Secrets: single source of truth via symlink. Credentials: independent per worktree. `opencode.json` committed (no real credentials), available via git. |
+| Git worktrees | Shell script (`scripts/worktree.sh`) over plugin | Direct terminal usage — no OpenCode session needed to create/delete. Zero dependencies. Ticket-aware branch naming. |
+| Worktree file sync | Symlink entire `thoughts/` directory | All workflow context shared: tickets, research, plans, credentials, secrets. `opencode.json` committed, available via git. |
 | Worktree storage | `~/.opencode-worktrees/<project-name>/<description>/` | Outside the repo to keep the project directory clean. |
 
 ## Component Inventory
@@ -132,7 +132,7 @@ opencode-template/
 | File | Status | Events | Logic |
 |------|--------|--------|-------|
 | `plugins/ticket-reminder.ts` | [ ] | `tool.execute.after` | Filters for bash calls containing `git add`/`git commit`. Finds ticket IDs in staged files or recent commits. Reads local ticket status. Surfaces reminder if status needs updating. Optional: `session.idle` → `notify-send` for Linux notifications. |
-| `plugins/worktree.ts` | [x] | `tool` (custom tools) | Registers `worktree_create`, `worktree_list`, `worktree_delete` tools. Creates worktrees with convention-based branch naming, syncs gitignored files (symlinks secrets, copies credentials). No auto-push, no auto-commit by default. |
+| ~~`plugins/worktree.ts`~~ | Removed | — | Replaced by `scripts/worktree.sh` — shell script is more natural for terminal users than an agent plugin tool. |
 
 ### Project Skeleton (3 scripts + directories)
 
