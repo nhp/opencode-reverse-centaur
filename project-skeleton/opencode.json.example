@@ -1,6 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
 
+  // ── SECURITY: This file is committed to git. ──────────────────────
+  // NEVER hardcode credentials, tokens, or secrets here.
+  // Always use {file:thoughts/.secrets/<name>} substitution.
+  // The /commit pre-flight will reject hardcoded secrets.
+  //
   // ── Project-Level MCP Overrides ───────────────────────────────────
   // This file merges with your global config (~/.config/opencode/opencode.json).
   // Only include settings that differ from the global config.

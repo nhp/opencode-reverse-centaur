@@ -153,7 +153,7 @@ OpenCode merges configs from multiple locations. This template uses a two-layer 
 
 **Global config** (`~/.config/opencode/opencode.json`) — defines all MCP servers. Servers used everywhere (e.g., Playwright) are enabled. Project-specific servers (Jira, Kibana, Magento) are disabled by default.
 
-**Project config** (`<project>/opencode.json`) — enables specific servers per project and provides credentials via `{file:...}` references to gitignored files in `thoughts/.secrets/`.
+**Project config** (`<project>/opencode.json`) — committed to git. Enables specific servers per project and provides credentials via `{file:...}` references to gitignored files in `thoughts/.secrets/`. Contains no real credentials — safe to commit. This also means git worktrees get the config automatically.
 
 See `opencode.json.global.example` for the global config pattern and `project-skeleton/opencode.json.example` for the project-level pattern.
 

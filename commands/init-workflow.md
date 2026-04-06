@@ -106,6 +106,8 @@ Check if an `opencode.json` file exists in the project root.
 Explain the layered config pattern:
 > OpenCode merges configs from multiple locations. Your global config (`~/.config/opencode/opencode.json`) defines all MCP servers with project-specific ones disabled. This project-level config enables specific servers and points their credentials to gitignored files in `thoughts/.secrets/`.
 >
+> This file is **committed to git** — it contains no real credentials (all use `{file:...}` substitution). This means teammates can see the MCP server configuration, and git worktrees get it automatically.
+>
 > See `opencode.json.global.example` in the template repo for the global config pattern.
 
 ## Step 3d: Thoughts .gitignore

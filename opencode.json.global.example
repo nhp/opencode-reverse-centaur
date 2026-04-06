@@ -1,6 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
 
+  // ── SECURITY: This is your GLOBAL config at ~/.config/opencode/. ──
+  // NEVER hardcode credentials here. Use {env:VAR} or {file:path}.
+  // Unlike project configs, this file is NOT committed to git.
+  //
   // ── Provider ──────────────────────────────────────────────────────
   // Configure your LLM provider. Remove or replace with your own.
   "provider": {

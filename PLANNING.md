@@ -73,7 +73,7 @@ opencode-template/
 | Ticket system | Local markdown (universal) + `/ticket-from-jira` (optional) | Not all projects use Jira. Local files give a unified interface for all downstream commands. |
 | Scripts shell | Bash (`#!/bin/bash`) | Fish is blacklisted by OpenCode's bash tool (`shell.ts:42`). Bun's `$` shell for `!` injection is POSIX-like. All execution paths use bash/sh on Linux. |
 | Install method | Symlinks for global dirs (commands, agents, skills, plugins) | Git pull = instant updates. `opencode.json` never symlinked — stays private. |
-| Credential isolation | Repo contains zero credentials. `opencode.json.example` has placeholders. Defensive `.gitignore`. | Public repo safety. |
+| Credential isolation | Repo contains zero credentials. `opencode.json` is committed (uses `{file:...}` substitution only). Defensive `.gitignore` for actual secrets. | Public repo safety. `opencode.json` contains no real credentials — worktrees get it via git. |
 | Ticket prefix | Per-project `thoughts/.ticket-prefix` file | Scripts read it dynamically. Avoids hardcoding. Set during `/init-workflow`. |
 | Jira ticket IDs | Use original Jira key as-is | `/ticket-from-jira` preserves the Jira ticket key (e.g., `SHOP-42`) instead of generating a sequential local ID. Scripts scan all `.md` files in tickets dir. |
 | User acronym | Optional `thoughts/.user-acronym` file | Set during `/init-workflow`. Used in branch naming: `feature/nhp/PROJ-0001/desc`. Gitignored. |

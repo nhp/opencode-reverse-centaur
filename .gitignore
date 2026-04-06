@@ -1,5 +1,4 @@
 # Credentials and secrets — NEVER commit these
-opencode.json
 *.env
 *.secret
 *.credentials
