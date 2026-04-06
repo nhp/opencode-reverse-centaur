@@ -179,4 +179,5 @@ Next steps:
   4. Set up agent credentials: cp thoughts/.credentials.example thoughts/.credentials
   5. Create your first ticket: /create-ticket
   6. View open tickets: run ./scripts/open_tickets.sh
+  7. For parallel work: ask the agent to "create a worktree for TICKET"
 ```

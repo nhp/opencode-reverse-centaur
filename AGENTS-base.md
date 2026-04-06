@@ -92,3 +92,12 @@ When you need credentials for a task (e.g., API calls, login, curl commands), us
 - **NEVER** run `git push` — the human decides when to push.
 - **NEVER** use `git commit --amend`.
 - Keep commits atomic and focused.
+
+### Git Worktrees
+
+When working with worktrees for parallel ticket implementation:
+
+- **Create tickets, research, and plans on main** — commit before creating a worktree. The worktree branches from main, so it needs these files committed first.
+- **Run `/commit` before deleting a worktree** — the worktree plugin does not auto-commit by default. Use the `/commit` workflow to get the security pre-flight scan.
+- **Never push worktree branches automatically** — the human decides when to push.
+- **`thoughts/.secrets/` is symlinked** in worktrees — changes there affect the main repo. Do not delete or modify secret files from within a worktree unless intentional.

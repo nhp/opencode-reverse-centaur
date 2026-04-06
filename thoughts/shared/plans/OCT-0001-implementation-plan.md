@@ -169,22 +169,22 @@ Add git worktree support to the template so developers can run multiple OpenCode
 **Goal:** Document the parallel workflow pattern so users can adopt it.
 
 **Changes:**
-- [ ] `README.md` — Add "Parallel Workflow (Git Worktrees)" section:
+- [x] `README.md` — Add "Parallel Workflow (Git Worktrees)" section:
   - How it works (create ticket on main → research → plan → branch via worktree → implement)
   - Process rules (tickets on main before branching, `/commit` before `worktree_delete`)
   - Commands the agent provides (`worktree_create`, `worktree_list`, `worktree_delete`)
   - Example workflow walkthrough
   - MCP resource considerations (each instance spawns its own servers)
-- [ ] `PLANNING.md` — Add worktree design decisions:
+- [x] `PLANNING.md` — Add worktree design decisions:
   - Custom plugin over vendored (supply chain, simplicity, control)
   - `opencode.json` committed (no secrets, simplifies worktree sync)
   - Symlink `.secrets/`, copy `.credentials`
   - No auto-push, no auto-commit by default
-- [ ] `AGENTS-base.md` — Add worktree rules to git discipline section:
+- [x] `AGENTS-base.md` — Add worktree rules to git discipline section:
   - "Create tickets, research, and plans on main — commit before branching"
   - "Run `/commit` before deleting a worktree"
   - "Never push worktree branches automatically"
-- [ ] `commands/init-workflow.md` — Update summary to mention worktree plugin availability
+- [x] `commands/init-workflow.md` — Update summary to mention worktree plugin availability
 
 **Success Criteria (Manual):**
 - [ ] README parallel workflow section is clear and actionable

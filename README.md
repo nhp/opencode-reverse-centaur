@@ -164,6 +164,60 @@ Config precedence (highest to lowest):
 
 See [OpenCode Config docs](https://opencode.ai/docs/config/) for full details.
 
+### Parallel Workflow (Git Worktrees)
+
+The template includes a worktree plugin that lets you run multiple OpenCode sessions in parallel, each working on a different ticket in isolation.
+
+**How it works:** Each worktree is a separate checkout of your repo on its own branch. You work in it like a normal directory — `cd` there, run `opencode`, do your work. When done, the branch merges back via standard git workflow.
+
+**Usage:** The plugin adds agent tools (not slash commands). Tell the agent what you want in natural language:
+
+```
+You: "Create a worktree for ticket PROJ-0001 to implement the checkout fix"
+Agent: calls worktree_create({ ticketId: "PROJ-0001", description: "checkout-fix" })
+→ Creates branch: feature/nhp/PROJ-0001/checkout-fix
+→ Worktree at: ~/.opencode-worktrees/my-project/checkout-fix/
+
+You: "List my worktrees"
+Agent: calls worktree_list()
+
+You: "Delete the checkout-fix worktree"
+Agent: calls worktree_delete({ worktreePath: "..." })
+```
+
+**Recommended workflow:**
+
+```
+1. /create-ticket    →  create ticket on main         →  commit
+2. /research TICKET  →  research on main              →  commit
+3. /plan TICKET      →  plan on main                  →  commit
+4. "Create a worktree for TICKET"                     →  new branch
+5. cd <worktree-path> && opencode                     →  new terminal
+6. /implement TICKET →  implement in worktree         →  commits on branch
+7. /commit           →  final commit with pre-flight  →  on branch
+8. "Delete the worktree"                              →  cleanup
+9. git merge <branch>                                 →  back on main
+```
+
+Steps 1-3 happen on main so the ticket, research, and plan are available in the worktree (it branches from main after they're committed). You can run multiple worktrees in parallel for different tickets.
+
+**Process rules:**
+- Always create tickets, research, and plans on main before branching
+- Run `/commit` before deleting a worktree (the plugin never auto-pushes)
+- `thoughts/.secrets/` is **symlinked** — changes in the worktree affect the main repo
+
+**File sync:** The plugin automatically handles gitignored files:
+
+| File | Sync method | Why |
+|------|-------------|-----|
+| `thoughts/.secrets/` | Symlink | Shared credentials, single source of truth |
+| `thoughts/.credentials` | Copy | Independent per worktree (agent may modify) |
+| `thoughts/.ticket-prefix` | Copy | Gitignored config |
+| `thoughts/.user-acronym` | Copy | Gitignored config |
+| `opencode.json` | Git | Committed to repo, available automatically |
+
+**Worktree storage:** `~/.opencode-worktrees/<project-name>/<description>/`
+
 ## Agents
 
 All subagents follow a strict "documentarian" rule — they describe what exists without suggesting improvements or expressing opinions.
