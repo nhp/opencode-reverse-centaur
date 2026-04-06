@@ -84,7 +84,7 @@ Add git worktree support to the template so developers can run multiple OpenCode
 **Goal:** Build a custom lightweight worktree plugin that provides `worktree_create` and `worktree_delete` tools for the agent.
 
 **Changes:**
-- [ ] `plugins/worktree.ts` — New file: custom worktree plugin (~200 lines)
+- [x] `plugins/worktree.ts` — New file: custom worktree plugin (~200 lines)
   - Tool: `worktree_create({ ticketId, description, type? })` 
     - Reads `thoughts/.ticket-prefix` and `thoughts/.user-acronym` (if exists)
     - Generates branch name: `[type]/[acronym]/[ticket-id]/[description]`
@@ -99,7 +99,7 @@ Add git worktree support to the template so developers can run multiple OpenCode
   - Tool: `worktree_list()`
     - Runs `git worktree list --porcelain`, parses output
     - Returns active worktrees with branch names and paths
-- [ ] `plugins/package.json` — No new dependencies needed (plugin uses only `node:*` and `git` CLI)
+- [x] `plugins/package.json` — No new dependencies needed (plugin uses only `node:*` and `git` CLI)
 
 **Plugin behavior details:**
 - Path validation: reject absolute paths and `..` traversal in description
