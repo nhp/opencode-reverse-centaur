@@ -155,6 +155,8 @@ OpenCode merges configs from multiple locations. This template uses a two-layer 
 
 **Project config** (`<project>/opencode.json`) — committed to git. Enables specific servers per project and provides credentials via `{file:...}` references to gitignored files in `thoughts/.secrets/`. Contains no real credentials — safe to commit. This also means git worktrees get the config automatically.
 
+**Important:** Each MCP entry in the project config must include the **full definition** (`type`, `command`/`url`) — OpenCode does not deep-merge MCP server configs with the global config.
+
 See `opencode.json.global.example` for the global config pattern and `project-skeleton/opencode.json.example` for the project-level pattern.
 
 Config precedence (highest to lowest):

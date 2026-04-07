@@ -6,24 +6,28 @@
   // Always use {file:thoughts/.secrets/<name>} substitution.
   // The /commit pre-flight will reject hardcoded secrets.
   //
-  // ── Project-Level MCP Overrides ───────────────────────────────────
-  // This file merges with your global config (~/.config/opencode/opencode.json).
-  // Only include settings that differ from the global config.
+  // ── Project-Level MCP Configuration ───────────────────────────────
+  // NOTE: Each MCP entry must include the FULL definition (type, command/url)
+  // because OpenCode does not deep-merge MCP server configs with the global config.
   //
-  // MCP servers defined globally with "enabled": false can be enabled
-  // here per project. Credentials use {file:...} substitution to read
-  // from gitignored files in thoughts/.secrets/.
+  // Credentials use {file:...} substitution to read from gitignored files
+  // in thoughts/.secrets/.
   //
   // See: https://opencode.ai/docs/config/#per-project
   "mcp": {
 
     // Enable Jira for this project (uses OAuth, no credentials needed)
     "jira": {
-      "enabled": true
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "enabled": true,
+      "oauth": {}
     },
 
     // Enable Bitbucket with project-specific credentials
     "bitbucket": {
+      "type": "local",
+      "command": ["npx", "-y", "@aashari/mcp-server-atlassian-bitbucket"],
       "enabled": true,
       "environment": {
         "ATLASSIAN_USER_EMAIL": "{file:thoughts/.secrets/atlassian-email}",
@@ -33,6 +37,8 @@
 
     // Enable Kibana with project-specific credentials
     "kibana": {
+      "type": "local",
+      "command": ["npx", "-y", "@tocharianou/mcp-server-kibana"],
       "enabled": true,
       "environment": {
         "KIBANA_HOST": "{file:thoughts/.secrets/kibana-url}",
@@ -42,11 +48,9 @@
 
     // Magento 2 — uncomment to enable:
     // "magento2": {
-    //   "enabled": true,
-    //   "environment": {
-    //     "MAGENTO_BASE_URL": "{file:thoughts/.secrets/magento-url}",
-    //     "MAGENTO_ACCESS_TOKEN": "{file:thoughts/.secrets/magento-token}"
-    //   }
+    //   "type": "local",
+    //   "command": ["npx", "-y", "@elgentos/magento2-dev-mcp"],
+    //   "enabled": true
     // }
   }
 }
