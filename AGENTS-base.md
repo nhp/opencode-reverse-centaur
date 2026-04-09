@@ -24,15 +24,44 @@ Examples (without acronym):
 
 ### Commit Messages
 
-Use conventional commits with ticket IDs:
+Follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/). This is the default format — projects can override in their `AGENTS.md`.
+
+**Subject line format:** `type(scope): description`
+
+- **type**: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `style`, `perf`, `ci`, `build`, `revert`
+- **scope** (optional): component or area affected (e.g., `auth`, `api`, `checkout`)
+- **description**: imperative mood, lowercase, no period, max 100 chars total
+
+**Body** (optional, blank line after subject):
+- Bullet points with `-`
+- Explain what and why, max 100 chars per line
+- Omit if the subject is self-explanatory
+
+**Footer** (optional, blank line after body):
+- Ticket references: `Refs: PROJ-0001`
+- Breaking changes: `BREAKING CHANGE: description`
 
 ```
-[TICKET-ID] Short summary of changes
+feat(checkout): add cart validation before payment
 
-* Why this change was needed
-* Additional context
+- validate item availability and pricing before proceeding
+- display inline error messages for out-of-stock items
 
-Refs: TICKET-IDs
+Refs: HUB-0024
+```
+
+```
+fix(auth): prevent session fixation on login
+
+- regenerate session ID after successful authentication
+- clear previous session cookies before setting new ones
+
+BREAKING CHANGE: existing sessions are invalidated after deploy
+Refs: PROJ-0042
+```
+
+```
+docs: update API authentication examples
 ```
 
 ## Security Awareness
