@@ -1,7 +1,6 @@
 ---
 description: "Reviews code for quality, security, performance, and maintainability. Read-only — never modifies code. Use for pre-commit reviews, PR reviews, or implementation validation against tickets."
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
 tools:
   write: false
   edit: false

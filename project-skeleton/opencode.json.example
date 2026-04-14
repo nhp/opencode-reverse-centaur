@@ -52,5 +52,35 @@
     //   "command": ["npx", "-y", "@elgentos/magento2-dev-mcp"],
     //   "enabled": true
     // }
-  }
+  },
+
+  // ── Model Routing (optional) ──────────────────────────────────────
+  // By default, all commands and subagents inherit your primary model.
+  // To reduce costs, route lighter tasks to a cheaper model.
+  // Adjust provider/model IDs to match your configured provider.
+  //
+  // Only /implement is intentionally omitted — it writes code and
+  // benefits from your best model.
+
+  // "agent": {
+  //   "codebase-locator":        { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "codebase-analyzer":       { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "codebase-pattern-finder": { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "thoughts-locator":        { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "thoughts-analyzer":       { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "web-search-researcher":   { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "code-reviewer":           { "model": "anthropic/claude-sonnet-4-20250514" }
+  // },
+
+  // "command": {
+  //   "research":        { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "plan":            { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "review":          { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "commit":          { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "discuss":         { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "create-ticket":   { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "ticket-from-jira":{ "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "init-workflow":   { "model": "anthropic/claude-sonnet-4-20250514" },
+  //   "caveman":         { "model": "anthropic/claude-sonnet-4-20250514" }
+  // }
 }
