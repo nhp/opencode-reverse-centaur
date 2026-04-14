@@ -242,34 +242,22 @@ Say "stop caveman" or "normal mode" to deactivate.
 
 By default, all commands and subagents inherit your primary model. This keeps the template provider-agnostic — it works with any provider you've configured.
 
-To reduce costs, you can route lighter tasks to a cheaper model on a per-project basis. Add `agent` and `command` overrides to your project's `opencode.json`:
+To reduce costs, you can route subagents to a cheaper model on a per-project basis. Add an `agent` override to your project's `opencode.json`:
 
 ```jsonc
 {
   "agent": {
     "codebase-locator":  { "model": "anthropic/claude-sonnet-4-20250514" },
-    "codebase-analyzer": { "model": "anthropic/claude-sonnet-4-20250514" }
+    "codebase-analyzer": { "model": "anthropic/claude-sonnet-4-20250514" },
+    "code-reviewer":     { "model": "anthropic/claude-sonnet-4-20250514" }
     // ... other subagents
-  },
-  "command": {
-    "research": { "model": "anthropic/claude-sonnet-4-20250514" },
-    "commit":   { "model": "anthropic/claude-sonnet-4-20250514" }
-    // ... other commands
   }
 }
 ```
 
 See `opencode.json.example` for the full commented-out block you can uncomment and adjust.
 
-**What to route where:**
-
-| Component | Recommendation | Why |
-|-----------|---------------|-----|
-| Primary agent + `/implement` | Best model | Writes code — needs full reasoning |
-| `/research`, `/plan`, `/review` | Mid-tier | Analysis and synthesis, no code changes |
-| `/commit`, `/discuss`, `/create-ticket` | Mid-tier | Structured dialogue, mechanical checks |
-| All 7 subagents | Mid-tier | Search, describe, read-only tasks |
-| `/caveman`, `/init-workflow` | Mid-tier | Lightweight tasks |
+> **Note:** Command model overrides (`/research`, `/commit`, etc.) must be set in each command's markdown frontmatter — the `command` key in `opencode.json` requires a `template` and cannot partially override markdown-based commands. Since the shared command files are provider-agnostic, commands inherit your primary model.
 
 ## Agents
 
