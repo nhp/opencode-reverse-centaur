@@ -10,9 +10,9 @@ Inspired and adapted from [Tobi Schlitt: context-engineering for LLM coding](htt
 
 | Component    | Count | Description                                                                                                                   |
 | ------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Commands** | 9     | `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/init-workflow` |
+| **Commands** | 10    | `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/init-workflow`, `/caveman` |
 | **Agents**   | 7     | Specialized subagents for codebase analysis, pattern finding, documentation, web research, and code review                    |
-| **Skills**   | 2     | Lazy-loaded templates for research documents and implementation plans                                                         |
+| **Skills**   | 6     | Research documents, implementation plans, security checklist, caveman mode (terse output), caveman-commit, caveman-review      |
 | **Plugin**   | 1     | Ticket status reminders on git operations + desktop notifications                                                             |
 | **Scripts**  | 4     | Ticket management utilities + credentials access                                                                              |
 
@@ -220,6 +220,23 @@ Steps 1-3 happen on main so the ticket, research, and plan are available in the 
 | Source code | Git | Normal worktree checkout |
 
 **Worktree storage:** `~/.opencode-worktrees/<project-name>/<description>/`
+
+## Caveman Mode (Optional)
+
+Token-efficient communication mode based on [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman). Cuts ~75% of output tokens while keeping full technical accuracy. Activate when you want faster, terser responses.
+
+| Command | What it does |
+|---------|-------------|
+| `/caveman` | Activate caveman mode (default: full) |
+| `/caveman lite` | Professional but no fluff — drop filler, keep grammar |
+| `/caveman ultra` | Maximum compression — abbreviations, arrows, bare fragments |
+| `/caveman-help` | Quick-reference card for all modes and skills |
+
+Say "stop caveman" or "normal mode" to deactivate.
+
+**Additional skills** loaded by `/caveman`:
+- **caveman-commit** — terse commit messages in Conventional Commits format
+- **caveman-review** — one-line code review comments: `L42: bug: user null. Add guard.`
 
 ## Agents
 
