@@ -2,6 +2,11 @@
 
 # Git worktree management for parallel OpenCode sessions.
 #
+# Supports both regular repos and bare repo layouts:
+#
+#   Regular:  project/ contains .git/, scripts/, thoughts/
+#   Bare:     project/ contains .git/ (bare), thoughts/, main/, feature-x/
+#
 # Usage:
 #   ./scripts/worktree.sh create <ticket-id> <description> [type]
 #   ./scripts/worktree.sh list
@@ -13,7 +18,8 @@
 #   ./scripts/worktree.sh list
 #   ./scripts/worktree.sh delete add-dark-mode
 #
-# Worktrees are stored at: ~/.opencode-worktrees/<project-name>/<description>/
+# In a regular repo, worktrees are stored at the project root.
+# In a bare repo layout, worktrees are siblings of .git and thoughts/.
 #
 # File sync:
 #   - thoughts/ → symlinked (shared context: tickets, research, plans, credentials)
@@ -25,9 +31,36 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+CALLER_DIR="$(dirname "$SCRIPT_DIR")"
+
+# ── Detect project root ─────────────────────────────────────────────
+# Find the common git dir, then derive the project root.
+# - Bare repo:      git-common-dir = /path/to/project/.git (a directory)
+#                    project root   = /path/to/project
+# - Regular repo:   git-common-dir = /path/to/project/.git
+#                    project root   = /path/to/project
+# - Worktree of bare: git-common-dir points to the bare .git
+#                    project root   = parent of that .git
+GIT_COMMON_DIR="$(cd "$(git -C "$CALLER_DIR" rev-parse --git-common-dir)" && pwd)"
+PROJECT_ROOT="$(dirname "$GIT_COMMON_DIR")"
+
+# Where thoughts/ lives — always at project root
+THOUGHTS_DIR="$PROJECT_ROOT/thoughts"
+
+# Detect if this is a bare repo layout (worktrees are siblings of .git)
+IS_BARE="$(git -C "$CALLER_DIR" rev-parse --is-bare-repository 2>/dev/null || echo false)"
+if [ "$IS_BARE" = "true" ]; then
+    # Script was called from within the bare repo dir itself
+    WORKTREE_BASE="$PROJECT_ROOT"
+elif [ -f "$CALLER_DIR/.git" ]; then
+    # We're inside a worktree (linked worktree has .git as a file, not dir)
+    WORKTREE_BASE="$PROJECT_ROOT"
+else
+    # Regular repo — worktrees go at project root level
+    WORKTREE_BASE="$PROJECT_ROOT"
+fi
+
 PROJECT_NAME="$(basename "$PROJECT_ROOT")"
-WORKTREE_BASE="$HOME/.opencode-worktrees/$PROJECT_NAME"
 
 # ── Helpers ──────────────────────────────────────────────────────────
 
@@ -43,7 +76,7 @@ sanitize() {
 
 # Read user acronym from thoughts/.user-acronym (if exists).
 read_acronym() {
-    local file="$PROJECT_ROOT/thoughts/.user-acronym"
+    local file="$THOUGHTS_DIR/.user-acronym"
     if [ -f "$file" ]; then
         tr -d '[:space:]' < "$file"
     fi
@@ -78,11 +111,11 @@ cmd_create() {
     fi
     branch="$branch/$ticket_id/$slug"
 
-    # Worktree path
+    # Worktree path — sibling of other worktrees/dirs at project root
     local wt_path="$WORKTREE_BASE/$slug"
 
     # Check if worktree already exists
-    if git -C "$PROJECT_ROOT" worktree list --porcelain | grep -q "branch refs/heads/$branch"; then
+    if git -C "$CALLER_DIR" worktree list --porcelain | grep -q "branch refs/heads/$branch"; then
         echo "Error: a worktree for branch '$branch' already exists." >&2
         exit 1
     fi
@@ -93,17 +126,16 @@ cmd_create() {
     fi
 
     # Create worktree
-    mkdir -p "$WORKTREE_BASE"
     echo "Creating worktree..."
-    git -C "$PROJECT_ROOT" worktree add "$wt_path" -b "$branch"
+    git -C "$CALLER_DIR" worktree add "$wt_path" -b "$branch"
 
     # ── Sync: symlink thoughts/ ──
     # The thoughts/ directory contains all workflow context (tickets, research,
     # plans, credentials, secrets). Symlink it so the worktree shares everything.
-    if [ -d "$PROJECT_ROOT/thoughts" ]; then
+    if [ -d "$THOUGHTS_DIR" ]; then
         # Remove the thoughts/ dir that git checkout created (tracked files only)
         rm -rf "$wt_path/thoughts"
-        ln -s "$PROJECT_ROOT/thoughts" "$wt_path/thoughts"
+        ln -s "$THOUGHTS_DIR" "$wt_path/thoughts"
     fi
 
     echo ""
@@ -120,13 +152,13 @@ cmd_create() {
     echo "  Run /commit in the worktree session"
     echo "  ./scripts/worktree.sh delete $slug"
     echo ""
-    echo "Note: thoughts/ is symlinked — shared with the main repo."
+    echo "Note: thoughts/ is symlinked — shared across all worktrees."
 }
 
 cmd_list() {
     echo "Active worktrees:"
     echo ""
-    git -C "$PROJECT_ROOT" worktree list
+    git -C "$CALLER_DIR" worktree list
 }
 
 cmd_delete() {
@@ -142,7 +174,7 @@ cmd_delete() {
         echo "Usage: $0 delete [-f|--force] <description>" >&2
         echo "" >&2
         echo "Active worktrees:" >&2
-        git -C "$PROJECT_ROOT" worktree list >&2
+        git -C "$CALLER_DIR" worktree list >&2
         exit 1
     fi
 
@@ -152,7 +184,7 @@ cmd_delete() {
         echo "Error: worktree not found at $wt_path" >&2
         echo "" >&2
         echo "Active worktrees:" >&2
-        git -C "$PROJECT_ROOT" worktree list >&2
+        git -C "$CALLER_DIR" worktree list >&2
         exit 1
     fi
 
@@ -180,7 +212,7 @@ cmd_delete() {
     fi
 
     # Remove worktree
-    git -C "$PROJECT_ROOT" worktree remove "$wt_path" --force
+    git -C "$CALLER_DIR" worktree remove "$wt_path" --force
 
     echo ""
     echo "Worktree removed."
