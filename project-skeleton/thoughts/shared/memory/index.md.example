@@ -1,0 +1,26 @@
+# Memory Index
+
+Curated retrieval map for cross-ticket continuity.
+
+## How to Use
+
+- Add links to reusable memory pages by domain/module.
+- Keep entries short; link to sources instead of duplicating long narratives.
+- Update after merge when a ticket yields durable insights.
+
+## Domains
+
+### [Domain Name]
+- Concept: [Title](concepts/example-concept.md)
+- Decision: [Title](decisions/example-decision.md)
+- Source tickets: ../../tickets/PROJ-0001-example.md
+
+### [Another Domain]
+- Concept: ...
+- Decision: ...
+
+## Maintenance Checklist
+
+- Remove or mark superseded decisions.
+- Add missing links for high-frequency issue areas.
+- Keep this page skimmable.

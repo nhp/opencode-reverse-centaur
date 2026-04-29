@@ -51,8 +51,19 @@ project-root/
         ├── research/      # Codebase research documents
         ├── plans/         # Implementation plans
         ├── reviews/       # Code review documents
-        └── discussions/   # Technical discussion records
+        ├── discussions/   # Technical discussion records
+        └── memory/        # Cross-ticket memory layer
+            ├── index.md   # Curated retrieval map
+            ├── concepts/  # Durable invariants/pitfalls
+            └── decisions/ # ADR-lite decision history
 ```
+
+## Memory Continuity (Recommended)
+
+- Before starting a new ticket, check `thoughts/shared/memory/index.md` and relevant concept/decision pages.
+- After a ticket is merged, capture a short memory delta (durable insights only).
+- Keep memory entries source-linked to ticket/research/plan/review docs.
+- Avoid duplicating whole ticket narratives in memory pages; store reusable conclusions only.
 
 ## Local Development
 

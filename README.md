@@ -10,11 +10,11 @@ Inspired and adapted from [Tobi Schlitt: context-engineering for LLM coding](htt
 
 | Component    | Count | Description                                                                                                                   |
 | ------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Commands** | 10    | `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/init-workflow`, `/caveman` |
+| **Commands** | 11    | `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/memory`, `/init-workflow`, `/caveman` |
 | **Agents**   | 7     | Specialized subagents for codebase analysis, pattern finding, documentation, web research, and code review                    |
-| **Skills**   | 6     | Research documents, implementation plans, security checklist, caveman mode (terse output), caveman-commit, caveman-review      |
+| **Skills**   | 7     | Research documents, implementation plans, security checklist, caveman mode, caveman-help, caveman-commit, caveman-review       |
 | **Plugin**   | 1     | Ticket status reminders on git operations + desktop notifications                                                             |
-| **Scripts**  | 4     | Ticket management utilities + credentials access                                                                              |
+| **Scripts**  | 5     | Ticket management utilities, credentials access, and worktree management                                                     |
 
 ## Prerequisites
 
@@ -68,7 +68,8 @@ Open a project in OpenCode and run:
 Replace `PROJ` with your ticket prefix (e.g., `NHP`, `SHOP`, `APP`). This creates:
 
 - `thoughts/shared/{tickets,discussions,plans,research,reviews}/`
-- `scripts/{ticket.sh,next-ticket.sh,open_tickets.sh}`
+- `thoughts/shared/memory/{concepts,decisions}/` + `memory/index.md`
+- `scripts/{ticket.sh,next-ticket.sh,open_tickets.sh,credentials.sh,worktree.sh}`
 - `thoughts/.ticket-prefix`
 - `AGENTS.md` (starter template, if none exists)
 
@@ -89,8 +90,22 @@ Replace `PROJ` with your ticket prefix (e.g., `NHP`, `SHOP`, `APP`). This create
 - **`/commit`** — Pre-commit checklist: runs tests, checks code style, reviews staged changes, creates a clean commit.
 - **`/review PROJ-0001`** — Code review against ticket acceptance criteria. Produces review document.
 - **`/discuss topic`** — Technical discussion with a senior engineer sparring partner. No code changes.
+- **`/memory [lookup|capture TICKET-ID]`** — Cross-ticket continuity workflow. Lookup prior reusable knowledge before new work, capture durable insights after merge.
 - **`/ticket-from-jira PROJ-1234`** — Import a Jira ticket into the local format. Requires Jira MCP.
 - **`/init-workflow PREFIX`** — Set up the workflow in a new project.
+
+### Cross-Ticket Memory Layer
+
+The template supports a lean memory layer to prevent loss of important discoveries between sessions.
+
+- `thoughts/shared/memory/index.md` — curated retrieval map by domain/module
+- `thoughts/shared/memory/concepts/` — durable invariants and recurring pitfalls
+- `thoughts/shared/memory/decisions/` — ADR-lite rationale and supersession history
+
+Recommended cadence:
+
+1. Before `/research` or `/plan`, run `/memory` (lookup mode)
+2. After merge to main, run `/memory capture TICKET-ID` (capture mode)
 
 ## Ticket System
 
@@ -168,7 +183,7 @@ See [OpenCode Config docs](https://opencode.ai/docs/config/) for full details.
 
 ### Parallel Workflow (Git Worktrees)
 
-The template includes a worktree plugin that lets you run multiple OpenCode sessions in parallel, each working on a different ticket in isolation.
+The template includes a worktree script that lets you run multiple OpenCode sessions in parallel, each working on a different ticket in isolation.
 
 **How it works:** Each worktree is a separate checkout of your repo on its own branch. You work in it like a normal directory — `cd` there, run `opencode`, do your work. When done, the branch merges back via standard git workflow.
 
@@ -208,14 +223,14 @@ Steps 1-3 happen on main so the ticket, research, and plan are available in the 
 
 **Process rules:**
 - Always create tickets, research, and plans on main before branching
-- Run `/commit` before deleting a worktree (the plugin never auto-pushes)
+- Run `/commit` before deleting a worktree (the script never auto-pushes)
 - `thoughts/.secrets/` is **symlinked** — changes in the worktree affect the main repo
 
 **File sync:** The script symlinks the entire `thoughts/` directory to the worktree, so all tickets, research, plans, credentials, and secrets are shared.
 
 | Content | Available via | Notes |
 |---------|--------------|-------|
-| `thoughts/` (entire dir) | Symlink | Shared: tickets, research, plans, credentials, secrets |
+| `thoughts/` (entire dir) | Symlink | Shared: tickets, research, plans, memory, credentials, secrets |
 | `opencode.json` | Git | Committed to repo, available automatically |
 | Source code | Git | Normal worktree checkout |
 
@@ -287,11 +302,12 @@ All subagents follow a strict "documentarian" rule — they describe what exists
 ├── opencode.json              # Project-level config (MCP overrides, credentials)
 ├── opencode.json.example      # Reference for project config structure
 ├── AGENTS.md                  # Project-specific instructions
-├── scripts/                   # Ticket management scripts
+├── scripts/                   # Workflow scripts
 │   ├── ticket.sh
 │   ├── next-ticket.sh
 │   ├── open_tickets.sh
-│   └── credentials.sh
+│   ├── credentials.sh
+│   └── worktree.sh
 └── thoughts/
     ├── .ticket-prefix         # e.g., "PROJ"
     ├── .credentials.example   # Agent credentials format template
@@ -306,7 +322,11 @@ All subagents follow a strict "documentarian" rule — they describe what exists
         ├── research/          # Codebase research documents
         ├── plans/             # Implementation plans
         ├── reviews/           # Code review documents
-        └── discussions/       # Technical discussion records
+        ├── discussions/       # Technical discussion records
+        └── memory/
+            ├── index.md       # Cross-ticket retrieval map
+            ├── concepts/      # Durable invariants/pitfalls
+            └── decisions/     # ADR-lite decision history
 ```
 
 ## Acknowledgements

@@ -8,6 +8,18 @@ Research the codebase for: **$ARGUMENTS**
 
 ## Before You Start
 
+### 0. Memory Recall (mandatory)
+
+Before searching code, check whether prior reusable knowledge exists.
+
+- Read `thoughts/shared/memory/index.md` if present.
+- Use **@thoughts-locator** to find related files in:
+  - `thoughts/shared/memory/concepts/`
+  - `thoughts/shared/memory/decisions/`
+- Use **@thoughts-analyzer** to extract only relevant constraints, pitfalls, and prior decisions.
+
+If the memory layer does not exist yet, continue normally.
+
 If `$ARGUMENTS` looks like a ticket ID (e.g., PROJ-0001), gather all existing context:
 ```
 !`./scripts/ticket.sh $1`
@@ -39,6 +51,8 @@ Use **@codebase-pattern-finder** to find similar implementations. Ask it for:
 
 ### 4. Check Existing Documentation
 Use **@thoughts-locator** to find related documents in `thoughts/`. Then use **@thoughts-analyzer** on any relevant documents found.
+
+Include both ticket artifacts and memory artifacts (`thoughts/shared/memory/**`).
 
 ### 5. Web Research (if needed)
 If the ticket involves external libraries, APIs, or unfamiliar technology, use **@web-search-researcher** to gather relevant documentation.
@@ -78,4 +92,5 @@ After writing, present a brief summary to the user highlighting:
 - Key findings
 - Any surprising discoveries
 - Open questions that still need answers
+- Which prior memory entries (if any) were used
 - Recommendation: is this ready for `/plan` or does it need more research?

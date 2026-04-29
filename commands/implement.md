@@ -78,3 +78,4 @@ After all phases are complete:
    - Any deviations from the plan
    - Any follow-up items or technical debt
 4. Suggest running `/review` for a final quality check
+5. If the work will be merged, suggest running `/memory capture [TICKET-ID]` after merge to preserve durable cross-ticket knowledge

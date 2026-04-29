@@ -26,11 +26,15 @@ thoughts/shared/discussions/
 thoughts/shared/plans/
 thoughts/shared/research/
 thoughts/shared/reviews/
+thoughts/shared/memory/concepts/
+thoughts/shared/memory/decisions/
 thoughts/.secrets/
 scripts/
 ```
 
 Create `.gitkeep` files in each `thoughts/shared/` subdirectory and in `thoughts/.secrets/`.
+
+Also create a starter memory index file at `thoughts/shared/memory/index.md` (copy from template example if available).
 
 ## Step 2: Write Ticket Prefix
 
@@ -119,6 +123,20 @@ This ensures `.ticket-prefix`, `.user-acronym`, `.credentials`, and `.secrets/*`
 
 **If the file already exists:** Check if it already covers `.secrets/*`. If not, suggest appending the missing patterns.
 
+## Step 3e: Memory Starter Templates
+
+Copy memory starter templates from the skeleton:
+- `$OPENCODE_TEMPLATE_DIR/project-skeleton/thoughts/shared/memory/index.md.example` → `thoughts/shared/memory/index.md` (if target doesn't exist)
+
+If `thoughts/shared/memory/index.md` already exists, preserve it and skip copying.
+
+Explain usage briefly:
+> This memory layer is for cross-ticket continuity.
+>
+> - `index.md` is a curated retrieval map.
+> - `concepts/` stores durable invariants/pitfalls.
+> - `decisions/` stores ADR-lite rationale and supersession history.
+
 ## Step 4: Symlink AGENTS-base.md
 
 Create a symlink for the shared development standards file:
@@ -158,7 +176,9 @@ Tell the user what was created and suggest next steps:
 Workflow initialized with prefix: [PREFIX]
 
 Created:
-  thoughts/shared/{tickets,discussions,plans,research,reviews}/
+  thoughts/shared/{tickets,discussions,plans,research,reviews,memory/}
+  thoughts/shared/memory/index.md
+  thoughts/shared/memory/{concepts,decisions}/
   thoughts/.ticket-prefix
   thoughts/.gitignore
   thoughts/.credentials.example

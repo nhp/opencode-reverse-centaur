@@ -2,13 +2,27 @@
 
 Adapted from [tobyS/claude-template](https://github.com/tobyS/claude-template) for [OpenCode](https://opencode.ai).
 
-**Status:** Phases 0–7 complete. Remaining: remove inline code-reviewer from opencode.json (8).
+**Status:** Phases 0–7 complete. Remaining: keep planning metadata aligned as template evolves.
 
 ## Goal
 
 Provide a structured, repeatable agent workflow for OpenCode that works across all projects:
 
 **Ticket creation** → **Codebase research** → **Implementation planning** → **Implementation** → **Commit** → **Code review** → **Technical discussion**
+
+## Recommended Lifecycle (with Memory Continuity)
+
+To reduce cross-session knowledge loss, use this cadence:
+
+1. **Before research/planning:** run `/memory` (lookup mode) to load relevant prior concepts/decisions.
+2. **Normal workflow:** `/create-ticket` → `/research` → `/plan` → `/implement` → `/commit` → `/review`.
+3. **After merge to main:** run `/memory capture TICKET-ID` to store durable insights.
+
+Memory layer structure:
+
+- `thoughts/shared/memory/index.md` — curated retrieval map
+- `thoughts/shared/memory/concepts/` — durable invariants/pitfalls
+- `thoughts/shared/memory/decisions/` — ADR-lite rationale and supersession
 
 Local markdown tickets are the canonical format (works everywhere). An optional `/ticket-from-jira` command imports Jira tickets into the same local format for projects that use Jira.
 
@@ -31,7 +45,9 @@ opencode-template/
 │   ├── commit.md
 │   ├── review.md
 │   ├── discuss.md
-│   └── init-workflow.md                  # Scaffold command
+│   ├── init-workflow.md                  # Scaffold command
+│   ├── memory.md                         # Cross-ticket memory lookup/capture
+│   └── caveman.md                        # Optional terse-output mode
 ├── agents/
 │   ├── codebase-locator.md
 │   ├── codebase-analyzer.md
@@ -43,7 +59,17 @@ opencode-template/
 ├── skills/
 │   ├── research-document/
 │   │   └── SKILL.md
-│   └── implementation-plan/
+│   ├── implementation-plan/
+│   │   └── SKILL.md
+│   ├── security-checklist/
+│   │   └── SKILL.md
+│   ├── caveman/
+│   │   └── SKILL.md
+│   ├── caveman-help/
+│   │   └── SKILL.md
+│   ├── caveman-commit/
+│   │   └── SKILL.md
+│   └── caveman-review/
 │       └── SKILL.md
 ├── plugins/
 │   └── ticket-reminder.ts
@@ -53,6 +79,7 @@ opencode-template/
     │   ├── ticket.sh
     │   ├── next-ticket.sh
     │   ├── open_tickets.sh
+    │   ├── credentials.sh
     │   └── worktree.sh                   # Git worktree create/list/delete for parallel sessions
     └── thoughts/
         ├── .gitignore                    # Ignores .secrets/*, .credentials, .ticket-prefix, .user-acronym
@@ -64,7 +91,11 @@ opencode-template/
             ├── discussions/.gitkeep
             ├── plans/.gitkeep
             ├── research/.gitkeep
-            └── reviews/.gitkeep
+            ├── reviews/.gitkeep
+            └── memory/
+                ├── index.md.example
+                ├── concepts/.gitkeep
+                └── decisions/.gitkeep
 ```
 
 ## Technical Decisions
@@ -93,55 +124,63 @@ opencode-template/
 
 ## Component Inventory
 
-### Commands (9 files)
+### Commands (11 files)
 
 | File | Source | Status | Adaptation Notes |
 |------|--------|--------|-----------------|
-| `commands/create-ticket.md` | Template `create_ticket.md` | [ ] | Replace Task agent spawning → `@agent-name`. Keep 7-phase interactive dialogue. Call `!./scripts/next-ticket.sh`. |
-| `commands/ticket-from-jira.md` | New | [ ] | Takes Jira ticket ID as `$ARGUMENTS`. Jira MCP fetch → map to local ticket template. Calls `!./scripts/next-ticket.sh`. Adds `Jira Reference:` field. Graceful failure if Jira MCP unavailable. |
-| `commands/research.md` | Template `research_codebase.md` | [ ] | Replace subagent syntax. Move YAML research template → `research-document` skill (load on demand). Call `!./scripts/ticket.sh $1`. |
-| `commands/plan.md` | Template `create_plan.md` | [ ] | Replace subagent/ticket refs. Move plan template → `implementation-plan` skill. |
-| `commands/implement.md` | Template `implement_plan.md` | [ ] | Replace ticket script refs. Keep phase-by-phase with `todowrite`. |
-| `commands/commit.md` | Template `commit.md` | [ ] | Adapt to branch naming (`feature/SHORTCODE/TICKET-ID/branch-name`). Add inline ticket status reminder. |
-| `commands/review.md` | Template `code_review.md` | [ ] | Replace ticket refs with `!./scripts/ticket.sh`. Output to `thoughts/shared/reviews/`. |
-| `commands/discuss.md` | Template `discuss.md` | [ ] | Nearly direct copy. Output to `thoughts/shared/discussions/`. |
-| `commands/init-workflow.md` | New | [ ] | Takes PREFIX as `$ARGUMENTS`. Reads `$OPENCODE_TEMPLATE_DIR`. Creates dirs, copies scripts, writes `.ticket-prefix`, optionally generates starter `AGENTS.md`. |
+| `commands/create-ticket.md` | Template `create_ticket.md` | [x] | Replace Task agent spawning → `@agent-name`. Keep 7-phase interactive dialogue. Call `!./scripts/next-ticket.sh`. |
+| `commands/ticket-from-jira.md` | New | [x] | Takes Jira ticket ID as `$ARGUMENTS`. Jira MCP fetch → map to local ticket template. Calls `!./scripts/next-ticket.sh`. Adds `Jira Reference:` field. Graceful failure if Jira MCP unavailable. |
+| `commands/research.md` | Template `research_codebase.md` | [x] | Replace subagent syntax. Move YAML research template → `research-document` skill (load on demand). Call `!./scripts/ticket.sh $1`. |
+| `commands/plan.md` | Template `create_plan.md` | [x] | Replace subagent/ticket refs. Move plan template → `implementation-plan` skill. |
+| `commands/implement.md` | Template `implement_plan.md` | [x] | Replace ticket script refs. Keep phase-by-phase with `todowrite`. |
+| `commands/commit.md` | Template `commit.md` | [x] | Adapt to branch naming (`feature/SHORTCODE/TICKET-ID/branch-name`). Add inline ticket status reminder. |
+| `commands/review.md` | Template `code_review.md` | [x] | Replace ticket refs with `!./scripts/ticket.sh`. Output to `thoughts/shared/reviews/`. |
+| `commands/discuss.md` | Template `discuss.md` | [x] | Nearly direct copy. Output to `thoughts/shared/discussions/`. |
+| `commands/init-workflow.md` | New | [x] | Takes PREFIX as `$ARGUMENTS`. Reads `$OPENCODE_TEMPLATE_DIR`. Creates dirs, copies scripts, writes `.ticket-prefix`, optionally generates starter `AGENTS.md`. |
+| `commands/memory.md` | New | [x] | Lookup/capture workflow for cross-ticket continuity. Uses `thoughts/shared/memory/` as reusable knowledge layer. |
+| `commands/caveman.md` | New | [x] | Activates token-efficient caveman mode and optional compressed helper skills. |
 
 ### Agents (7 files)
 
 | File | Mode | Status | Tools Allowed | Tools Denied | Prompt Notes |
 |------|------|--------|---------------|--------------|-------------|
-| `agents/codebase-locator.md` | subagent | [ ] | lsp, grep, glob, list | edit, write, bash (destructive), webfetch | "Documentarian only" — finds WHERE code lives, does NOT read contents. |
-| `agents/codebase-analyzer.md` | subagent | [ ] | lsp, read, grep, glob, list | edit, write, webfetch | Understands HOW code works. Traces data flow. Never suggests improvements. |
-| `agents/codebase-pattern-finder.md` | subagent | [ ] | lsp, read, grep, glob, list | edit, write, webfetch | Finds similar implementations as templates. Never recommends one over another. |
-| `agents/thoughts-locator.md` | subagent | [ ] | grep, glob, list | edit, write, bash, webfetch, lsp | Finds documents in `thoughts/`. Does not read full contents. |
-| `agents/thoughts-analyzer.md` | subagent | [ ] | read, grep, glob, list | edit, write, bash, webfetch, lsp | Extracts high-value insights from thoughts docs. Filters aggressively. |
-| `agents/web-search-researcher.md` | subagent | [ ] | webfetch, websearch, read, grep, glob, todowrite | edit, write | Web research specialist. Preferred/excluded source lists. |
-| `agents/code-reviewer.md` | subagent | [ ] | read, grep, glob, list, lsp | edit, write | Migrated from inline `opencode.json` definition. Full review prompt. |
+| `agents/codebase-locator.md` | subagent | [x] | lsp, grep, glob, list | edit, write, bash (destructive), webfetch | "Documentarian only" — finds WHERE code lives, does NOT read contents. |
+| `agents/codebase-analyzer.md` | subagent | [x] | lsp, read, grep, glob, list | edit, write, webfetch | Understands HOW code works. Traces data flow. Never suggests improvements. |
+| `agents/codebase-pattern-finder.md` | subagent | [x] | lsp, read, grep, glob, list | edit, write, webfetch | Finds similar implementations as templates. Never recommends one over another. |
+| `agents/thoughts-locator.md` | subagent | [x] | grep, glob, list | edit, write, bash, webfetch, lsp | Finds documents in `thoughts/`. Does not read full contents. |
+| `agents/thoughts-analyzer.md` | subagent | [x] | read, grep, glob, list | edit, write, bash, webfetch, lsp | Extracts high-value insights from thoughts docs. Filters aggressively. |
+| `agents/web-search-researcher.md` | subagent | [x] | webfetch, websearch, read, grep, glob, todowrite | edit, write | Web research specialist. Preferred/excluded source lists. |
+| `agents/code-reviewer.md` | subagent | [x] | read, grep, glob, list, lsp | edit, write | Migrated from inline `opencode.json` definition. Full review prompt. |
 
-### Skills (3 directories)
+### Skills (7 directories)
 
 | Skill | Status | Contents | Loaded By |
 |-------|--------|----------|-----------|
-| `skills/research-document/SKILL.md` | [ ] | Research document YAML template, output format spec, section descriptions, quality checklist | `/research` command |
-| `skills/implementation-plan/SKILL.md` | [ ] | Plan template structure, phase format, success criteria (automated vs manual), review checklist | `/plan` command |
-| `skills/security-checklist/SKILL.md` | [ ] | OWASP/CWE-based security checklist with 9 categories, decision matrix, secure vs insecure patterns | `/research`, `/plan`, `/implement`, `/review` commands |
+| `skills/research-document/SKILL.md` | [x] | Research document YAML template, output format spec, section descriptions, quality checklist | `/research` command |
+| `skills/implementation-plan/SKILL.md` | [x] | Plan template structure, phase format, success criteria (automated vs manual), review checklist | `/plan` command |
+| `skills/security-checklist/SKILL.md` | [x] | OWASP/CWE-based security checklist with 9 categories, decision matrix, secure vs insecure patterns | `/research`, `/plan`, `/implement`, `/review` commands |
+| `skills/caveman/SKILL.md` | [x] | Token-efficient communication mode (lite/full/ultra, wenyan variants) | `/caveman` command |
+| `skills/caveman-help/SKILL.md` | [x] | One-shot quick reference for caveman modes and commands | `/caveman-help` command |
+| `skills/caveman-commit/SKILL.md` | [x] | Ultra-compressed conventional commit message generation | `/caveman` flow, commit workflows |
+| `skills/caveman-review/SKILL.md` | [x] | Ultra-compressed one-line code review comments | `/caveman` flow, review workflows |
 
 ### Plugin (1 file)
 
 | File | Status | Events | Logic |
 |------|--------|--------|-------|
-| `plugins/ticket-reminder.ts` | [ ] | `tool.execute.after` | Filters for bash calls containing `git add`/`git commit`. Finds ticket IDs in staged files or recent commits. Reads local ticket status. Surfaces reminder if status needs updating. Optional: `session.idle` → `notify-send` for Linux notifications. |
+| `plugins/ticket-reminder.ts` | [x] | `tool.execute.after` | Filters for bash calls containing `git add`/`git commit`. Finds ticket IDs in staged files or recent commits. Reads local ticket status. Surfaces reminder if status needs updating. Optional: `session.idle` → `notify-send` for Linux notifications. |
 | ~~`plugins/worktree.ts`~~ | Removed | — | Replaced by `scripts/worktree.sh` — shell script is more natural for terminal users than an agent plugin tool. |
 
-### Project Skeleton (3 scripts + directories)
+### Project Skeleton (5 scripts + directories)
 
 | File | Status | Adaptation from Template |
 |------|--------|------------------------|
-| `project-skeleton/scripts/ticket.sh` | [ ] | Replace hardcoded `TICKET_PREFIX="PROJ"` → read from `thoughts/.ticket-prefix`. |
-| `project-skeleton/scripts/next-ticket.sh` | [ ] | Same prefix change. |
-| `project-skeleton/scripts/open_tickets.sh` | [ ] | Same prefix change. |
-| `project-skeleton/thoughts/shared/*/` | [x] | 5 directories with `.gitkeep` files. Done in Phase 0. |
+| `project-skeleton/scripts/ticket.sh` | [x] | Replace hardcoded `TICKET_PREFIX="PROJ"` → read from `thoughts/.ticket-prefix`. |
+| `project-skeleton/scripts/next-ticket.sh` | [x] | Same prefix change. |
+| `project-skeleton/scripts/open_tickets.sh` | [x] | Same prefix change. |
+| `project-skeleton/scripts/credentials.sh` | [x] | Accessor for TOML credentials (`thoughts/.credentials`) during agent tasks. |
+| `project-skeleton/scripts/worktree.sh` | [x] | Worktree creation/list/delete with ticket-aware branch naming. |
+| `project-skeleton/thoughts/shared/*/` | [x] | 6 directories total (including `memory/` with starter files). |
 
 ### Repo Infrastructure
 
@@ -152,7 +191,7 @@ opencode-template/
 | `install.sh` | [x] | Symlink creation script |
 | `opencode.json.global.example` | [x] | Global config: all MCP servers defined, project-specific disabled |
 | `AGENTS.md.example` | [x] | Starter template for `/init-workflow` |
-| `README.md` | [ ] | Public docs — last, after all components exist |
+| `README.md` | [x] | Public docs and usage guide |
 
 ## OpenCode ↔ Claude Code Reference
 
@@ -176,13 +215,13 @@ opencode-template/
 |-------|-----------|--------|------------|
 | 0 | Repo scaffold, PLANNING.md, .gitignore, install.sh, examples, skeleton dirs | [x] | — |
 | 1 | Agents (7 files) | [x] | Phase 0 |
-| 2 | Skills (2 files) | [x] | Phase 0 |
-| 3 | Commands (9 files) | [x] | Phase 1 + 2 (commands reference agents and skills) |
+| 2 | Skills (7 directories) | [x] | Phase 0 |
+| 3 | Commands (11 files) | [x] | Phase 1 + 2 (commands reference agents and skills) |
 | 4 | Project skeleton scripts (3 files) | [x] | Phase 0 |
 | 5 | Plugin (1 file) | [x] | Phase 3 |
 | 6 | README.md | [x] | Phase 1–5 |
 | 7 | Run install.sh, test in one project | [x] | Phase 0–6 |
-| 8 | Remove inline code-reviewer from opencode.json | [ ] | Phase 1 |
+| 8 | Ongoing docs alignment as features evolve | [ ] | Phase 6 |
 
 ## Pre-Publish Safety Checklist
 
