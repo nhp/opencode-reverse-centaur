@@ -16,6 +16,7 @@ If `$ARGUMENTS` is a ticket ID, find all related documents:
 Read ALL of the following fully (do not skim):
 - The **ticket file** — understand the acceptance criteria and scope
 - The **research document** — understand the codebase, patterns, and impact analysis
+- **CONTEXT.md** (if present) — understand domain vocabulary and use it consistently in the plan
 
 If either is missing, tell the user:
 - No ticket? → Suggest running `/create-ticket` first

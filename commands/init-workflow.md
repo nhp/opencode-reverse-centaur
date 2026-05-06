@@ -155,6 +155,16 @@ Check if an `AGENTS.md` file exists in the project root.
 - **If it exists:** Skip this step. Tell the user their existing AGENTS.md is preserved. Remind them it should reference `AGENTS-base.md` at the top.
 - **If it doesn't exist:** Copy `$OPENCODE_TEMPLATE_DIR/AGENTS.md.example` to `AGENTS.md` in the project root. Tell the user to customize it for their project.
 
+## Step 4c: Generate CONTEXT.md (optional)
+
+Check if a `CONTEXT.md` file exists in the project root.
+
+- **If it exists:** Skip. Tell the user their existing CONTEXT.md is preserved.
+- **If it doesn't exist:** Ask the user if they want to create a `CONTEXT.md` for domain vocabulary. If yes, copy `$OPENCODE_TEMPLATE_DIR/project-skeleton/CONTEXT.md.example` to `CONTEXT.md`. If no, skip — it can always be created later.
+
+Explain briefly:
+> `CONTEXT.md` defines your project's domain language — precise terms, relationships, and resolved ambiguities. Agents read it before starting work and use its vocabulary in code, commits, and documentation.
+
 ## Step 5: Update .gitignore (optional)
 
 If a `.gitignore` file exists, check if it already contains `thoughts/.ticket-prefix`. If not, suggest adding:
@@ -191,6 +201,7 @@ Created:
   [opencode.json (if generated)]
   AGENTS-base.md → $OPENCODE_TEMPLATE_DIR/AGENTS-base.md (symlink)
   [AGENTS.md (if generated)]
+  [CONTEXT.md (if generated)]
 
 Next steps:
   1. Customize AGENTS.md for your project

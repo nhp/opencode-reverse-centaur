@@ -1,0 +1,37 @@
+# [Project Name] — Domain Language
+
+Shared vocabulary for this project. Agents read this file before starting any task and use its terms consistently in code, commits, and documentation.
+
+## How to Use
+
+- Add terms as they emerge during `/discuss`, `/create-ticket`, or `/plan` sessions.
+- Keep definitions tight — one sentence max. Define what it IS, not what it does.
+- Be opinionated — pick the best term, list others under _Avoid_.
+- Only include terms specific to this project — no general programming concepts.
+- Group terms under subheadings when natural clusters emerge.
+
+## Language
+
+### [Domain Area]
+
+**[Term]**:
+A one-sentence definition of what this term means in this project's context.
+_Avoid_: synonym1, synonym2
+
+**[Another Term]**:
+Definition.
+_Avoid_: alternative name
+
+## Relationships
+
+- A **[Term A]** contains many **[Term B]**s
+- A **[Term B]** belongs to exactly one **[Term A]**
+
+## Example dialogue (optional)
+
+> **Dev:** "When a [Term A] is created, does it always have [Term B]s?"
+> **Domain expert:** "No — a [Term A] starts empty. [Term B]s are added during [process name]."
+
+## Flagged ambiguities
+
+- "[word]" was previously used to mean both X and Y — resolved: X is a **[Term A]**, Y is a **[Term B]**.

@@ -41,6 +41,9 @@ You are an expert [role]. You prioritize:
 
 ```
 project-root/
+├── AGENTS.md          # Project-specific agent instructions
+├── AGENTS-base.md     # Shared development standards (symlink)
+├── CONTEXT.md         # Domain language glossary (optional)
 ├── src/               # [Description]
 ├── tests/             # [Description]
 ├── docs/              # [Description]
@@ -57,6 +60,10 @@ project-root/
             ├── concepts/  # Durable invariants/pitfalls
             └── decisions/ # ADR-lite decision history
 ```
+
+## Domain Language (Optional)
+
+If your project has a `CONTEXT.md`, keep it updated as domain understanding evolves. Agents read it automatically before starting work and use its vocabulary consistently. See the template for the format (Language, Relationships, Flagged ambiguities).
 
 ## Memory Continuity (Recommended)
 

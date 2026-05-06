@@ -54,7 +54,8 @@ Expected trigger: **ticket merged to main**.
    - One concept page if a reusable invariant/pitfall emerged
    - One decision page if a meaningful trade-off was resolved
 4. Update `thoughts/shared/memory/index.md` links
-5. Keep the update lean (target 5-10 minutes)
+5. If `CONTEXT.md` exists, check whether new domain terms emerged during the ticket lifecycle. If so, suggest additions to `CONTEXT.md`.
+6. Keep the update lean (target 5-10 minutes)
 
 ## Quality Rules
 

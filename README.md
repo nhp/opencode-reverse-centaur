@@ -72,6 +72,7 @@ Replace `PROJ` with your ticket prefix (e.g., `NHP`, `SHOP`, `APP`). This create
 - `scripts/{ticket.sh,next-ticket.sh,open_tickets.sh,credentials.sh,worktree.sh}`
 - `thoughts/.ticket-prefix`
 - `AGENTS.md` (starter template, if none exists)
+- `CONTEXT.md` (domain language glossary, if opted in)
 
 ## Workflow
 
@@ -93,6 +94,18 @@ Replace `PROJ` with your ticket prefix (e.g., `NHP`, `SHOP`, `APP`). This create
 - **`/memory [lookup|capture TICKET-ID]`** — Cross-ticket continuity workflow. Lookup prior reusable knowledge before new work, capture durable insights after merge.
 - **`/ticket-from-jira PROJ-1234`** — Import a Jira ticket into the local format. Requires Jira MCP.
 - **`/init-workflow PREFIX`** — Set up the workflow in a new project.
+
+### Shared Domain Language (CONTEXT.md)
+
+The template supports an optional `CONTEXT.md` file at the project root — a shared glossary that defines domain terms precisely, documents relationships between concepts, and flags resolved ambiguities.
+
+When present, agents read `CONTEXT.md` before starting any task and use its vocabulary consistently in code, commits, and documentation. Created optionally during `/init-workflow` or manually at any time.
+
+Format sections:
+- `## Language` — bold term + one-sentence definition + `_Avoid_:` synonyms
+- `## Relationships` — entity links with cardinality
+- `## Example dialogue` (optional) — dev-to-domain-expert conversation showing terms in use
+- `## Flagged ambiguities` — resolved naming conflicts with explicit decisions
 
 ### Cross-Ticket Memory Layer
 
@@ -302,6 +315,7 @@ All subagents follow a strict "documentarian" rule — they describe what exists
 ├── opencode.json              # Project-level config (MCP overrides, credentials)
 ├── opencode.json.example      # Reference for project config structure
 ├── AGENTS.md                  # Project-specific instructions
+├── CONTEXT.md                 # Domain language glossary (optional)
 ├── scripts/                   # Workflow scripts
 │   ├── ticket.sh
 │   ├── next-ticket.sh

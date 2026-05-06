@@ -64,6 +64,19 @@ Refs: PROJ-0042
 docs: update API authentication examples
 ```
 
+## Domain Language
+
+If `CONTEXT.md` exists at the project root, read it before starting any task. Use its vocabulary consistently in:
+- Code (variable names, function names, class names)
+- Comments and documentation
+- Commit messages
+- Ticket descriptions, research documents, and plans
+- Conversations with the user
+
+If a term in `CONTEXT.md` has an "Avoid" list, never use those synonyms — use the canonical term.
+
+If `CONTEXT.md` does not exist, continue normally. Do not prompt to create one.
+
 ## Security Awareness
 
 **AI-generated code is statistically less secure than human-written code** (Perry et al., CCS 2023; Pearce et al., IEEE S&P 2022). Treat all generated code as untrusted and apply these rules rigorously.

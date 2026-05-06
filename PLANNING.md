@@ -36,6 +36,8 @@ opencode-template/
 ├── install.sh                            # Symlinks to ~/.config/opencode/
 ├── opencode.json.global.example           # Global config: all MCP servers, project-specific disabled
 ├── AGENTS.md.example                     # Starter template for new projects
+├── project-skeleton/
+│   └── CONTEXT.md.example                # Domain language glossary template
 ├── commands/
 │   ├── create-ticket.md
 │   ├── ticket-from-jira.md
@@ -121,6 +123,7 @@ opencode-template/
 | Git worktrees | Shell script (`scripts/worktree.sh`) over plugin | Direct terminal usage — no OpenCode session needed to create/delete. Zero dependencies. Ticket-aware branch naming. |
 | Worktree file sync | Symlink entire `thoughts/` directory | All workflow context shared: tickets, research, plans, credentials, secrets. `opencode.json` committed, available via git. |
 | Worktree storage | `~/.opencode-worktrees/<project-name>/<description>/` | Outside the repo to keep the project directory clean. |
+| Domain language | Optional `CONTEXT.md` at project root | Shared glossary (Language, Relationships, Flagged ambiguities). Read by all commands when present. Inspired by Matt Pocock's `CONTEXT.md` pattern. |
 
 ## Component Inventory
 

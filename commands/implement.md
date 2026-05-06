@@ -17,6 +17,7 @@ Read ALL of these fully — do not skim:
 - The **implementation plan** — your roadmap
 - The **ticket** — the acceptance criteria you must satisfy
 - The **research document** — the codebase context and patterns to follow
+- **CONTEXT.md** (if present) — the domain vocabulary to use consistently
 
 ## Implementation Process
 

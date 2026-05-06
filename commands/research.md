@@ -20,6 +20,12 @@ Before searching code, check whether prior reusable knowledge exists.
 
 If the memory layer does not exist yet, continue normally.
 
+### 0b. Domain Language (if available)
+
+- Read `CONTEXT.md` if present at project root.
+- Use its vocabulary consistently in all research findings.
+- If `CONTEXT.md` does not exist, continue normally.
+
 If `$ARGUMENTS` looks like a ticket ID (e.g., PROJ-0001), gather all existing context:
 ```
 !`./scripts/ticket.sh $1`

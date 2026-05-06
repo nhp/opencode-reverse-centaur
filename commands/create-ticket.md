@@ -15,6 +15,9 @@ Get the next available ticket number:
 !`./scripts/next-ticket.sh`
 ```
 
+- Read `CONTEXT.md` if present at project root. Use its vocabulary when defining the problem, acceptance criteria, and user stories.
+- If `CONTEXT.md` does not exist, continue normally.
+
 ## Process: 7 Phases
 
 Work through each phase in order. Move to the next phase only when the user confirms the current one.
