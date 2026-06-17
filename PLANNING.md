@@ -41,6 +41,7 @@ opencode-template/
 ├── commands/
 │   ├── create-ticket.md
 │   ├── grill-with-docs.md
+│   ├── prototype.md
 │   ├── ticket-from-jira.md
 │   ├── research.md
 │   ├── plan.md
@@ -74,6 +75,8 @@ opencode-template/
 │   ├── handoff/
 │   │   └── SKILL.md
 │   ├── grill-with-docs/
+│   │   └── SKILL.md
+│   ├── prototype/
 │   │   └── SKILL.md
 │   ├── caveman/
 │   │   └── SKILL.md
@@ -139,11 +142,12 @@ opencode-template/
 
 ## Component Inventory
 
-### Commands (13 files)
+### Commands (14 files)
 
 | File | Source | Status | Adaptation Notes |
 |------|--------|--------|-----------------|
 | `commands/grill-with-docs.md` | Matt Pocock skills pattern | [x] | Upstream clarification workflow using CONTEXT.md, memory decisions, code checks, and prototype handoffs. |
+| `commands/prototype.md` | Matt Pocock skills pattern | [x] | Throwaway logic/UI prototyping workflow; captures answers back into durable artifacts. |
 | `commands/create-ticket.md` | Template `create_ticket.md` | [x] | Replace Task agent spawning → `@agent-name`. Keep 7-phase interactive dialogue. Call `!./scripts/next-ticket.sh`. |
 | `commands/ticket-from-jira.md` | New | [x] | Takes Jira ticket ID as `$ARGUMENTS`. Jira MCP fetch → map to local ticket template. Calls `!./scripts/next-ticket.sh`. Adds `Jira Reference:` field. Graceful failure if Jira MCP unavailable. |
 | `commands/research.md` | Template `research_codebase.md` | [x] | Replace subagent syntax. Move YAML research template → `research-document` skill (load on demand). Call `!./scripts/ticket.sh $1`. |
@@ -169,7 +173,7 @@ opencode-template/
 | `agents/web-search-researcher.md` | subagent | [x] | webfetch, websearch, read, grep, glob, todowrite | edit, write | Web research specialist. Preferred/excluded source lists. |
 | `agents/code-reviewer.md` | subagent | [x] | read, grep, glob, list, lsp | edit, write | Migrated from inline `opencode.json` definition. Full review prompt. |
 
-### Skills (11 directories)
+### Skills (12 directories)
 
 | Skill | Status | Contents | Loaded By |
 |-------|--------|----------|-----------|
@@ -180,6 +184,7 @@ opencode-template/
 | `skills/tdd/SKILL.md` | [x] | Red-green-refactor guidance for behavior tests through public interfaces | `/plan`, `/implement`, debugging fixes |
 | `skills/handoff/SKILL.md` | [x] | Temporary context-transfer document format with artifact links and suggested commands/skills | `/handoff`, out-of-scope follow-ups |
 | `skills/grill-with-docs/SKILL.md` | [x] | One-question-at-a-time design grilling against CONTEXT.md, memory decisions, and codebase reality | `/grill-with-docs`, pre-ticket clarification |
+| `skills/prototype/SKILL.md` | [x] | Throwaway logic/state or UI variant prototypes that answer one high-fidelity question | `/prototype`, handoffs from grilling |
 | `skills/caveman/SKILL.md` | [x] | Token-efficient communication mode (lite/full/ultra, wenyan variants) | `/caveman` command |
 | `skills/caveman-help/SKILL.md` | [x] | One-shot quick reference for caveman modes and commands | `/caveman-help` command |
 | `skills/caveman-commit/SKILL.md` | [x] | Ultra-compressed conventional commit message generation | `/caveman` flow, commit workflows |
