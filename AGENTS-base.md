@@ -123,6 +123,8 @@ When you need credentials for a task (e.g., API calls, login, curl commands), us
 ## Implementation Discipline
 
 - **Tests are NOT a separate phase.** Each implementation phase includes BOTH the feature AND its tests.
+- For behavior changes, prefer red-green-refactor: one failing test, smallest passing change, repeat, then refactor after green.
+- Tests should verify observable behavior through public interfaces or the highest reliable seam, not private implementation details.
 - Commit after each verified logical step.
 - Use `todowrite` to plan and track complex implementations.
 - Research existing patterns before implementing new features.

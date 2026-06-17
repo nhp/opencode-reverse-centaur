@@ -47,6 +47,9 @@ Brief description of the chosen approach and why it was selected over alternativ
 - [ ] `path/to/new-file.ext` — New file: description
 - [ ] `path/to/test.ext` — Tests for this phase
 
+**Behavior Tests:**
+- [ ] [Observable behavior] through [public interface/highest reliable seam]
+
 **Success Criteria (Automated):**
 - [ ] All existing tests pass
 - [ ] New tests for [specific functionality] pass
@@ -83,6 +86,9 @@ Things explicitly NOT included in this plan.
 ### Tests Are Part of Every Phase
 Each phase includes BOTH the feature implementation AND its tests. A phase is only complete when all tests pass. Never defer testing to a later phase.
 
+### Test One Behavior at a Time
+Plans should identify behavior tests, not implementation-detail tests. Implementation uses red-green-refactor: one failing test, smallest passing change, repeat, then refactor after green.
+
 ### Phases Are Atomic
 Each phase should result in a working, committable state. If a phase fails, you can revert to the previous commit without losing other work.
 
@@ -100,6 +106,7 @@ Before starting implementation, verify the plan:
 - [ ] All file paths reference real files (or clearly mark new files)
 - [ ] Each phase has both automated and manual success criteria
 - [ ] Tests are included in each phase (not deferred)
+- [ ] Behavior tests use public interfaces or the highest reliable seams
 - [ ] No open questions remain — all discussed with user
 - [ ] Research document has been consulted
 - [ ] Impact analysis from research has been addressed

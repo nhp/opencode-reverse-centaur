@@ -19,6 +19,8 @@ Read ALL of these fully — do not skim:
 - The **research document** — the codebase context and patterns to follow
 - **CONTEXT.md** (if present) — the domain vocabulary to use consistently
 
+Load the **tdd** skill before editing. Use its red-green-refactor loop for behavior changes unless a phase explicitly justifies a different verification strategy.
+
 ## Implementation Process
 
 Use `todowrite` to track progress across phases.
@@ -27,27 +29,31 @@ Use `todowrite` to track progress across phases.
 
 1. **Read the phase requirements** from the plan
 2. **Security pre-check** — Load the **security-checklist** skill and identify which categories apply to this phase using the Quick Decision Matrix. Keep the relevant rules in mind while implementing.
-3. **Implement the changes** listed in the phase
-   - Follow patterns identified in the research document
-   - Include tests as part of the phase (not separately)
-   - For security-relevant code: follow the secure patterns from the checklist, not the convenient ones
-4. **Run verification** — execute the automated success criteria:
+3. **Implement the changes** listed in the phase using TDD
+    - Follow patterns identified in the research document
+    - Include tests as part of the phase (not separately)
+    - For each behavior: write one failing test, make the smallest change to pass, then repeat
+    - Test through public interfaces or the highest reliable seam, not private implementation details
+    - For security-relevant code: follow the secure patterns from the checklist, not the convenient ones
+4. **Refactor only after green** — clean duplication and deepen modules while keeping tests passing
+5. **Run verification** — execute the automated success criteria:
    - Run tests
    - Run linter/code style checks
    - Run build if applicable
-5. **Security post-check** — Before committing, verify against the security checklist:
+6. **Security post-check** — Before committing, verify against the security checklist:
    - No hardcoded secrets, API keys, or passwords
    - All user input parameterized/escaped (no string concatenation into queries/commands/HTML)
    - Authorization checks present on new endpoints
    - No disabled security features (`verify=False`, missing CSRF, permissive CORS)
    - Error responses don't leak internals
-6. **Check off completed items** in the plan file (update the checkboxes)
-7. **Commit** with a conventional commit message referencing the ticket ID
-8. **Move to the next phase**
+7. **Check off completed items** in the plan file (update the checkboxes)
+8. **Commit** with a conventional commit message referencing the ticket ID
+9. **Move to the next phase**
 
 ### If Something Goes Wrong
 
 - **Tests fail:** Fix the issue before moving on. Do not skip failing tests.
+- **No correct test seam exists:** Document that finding and discuss whether the phase needs architecture work before implementation.
 - **Reality doesn't match the plan:** STOP. Explain to the user what's different and discuss how to adjust the plan. Do not silently deviate.
 - **A phase is more complex than expected:** Break it into sub-phases. Update the plan file to reflect this.
 - **You discover something the research missed:** Document it. Consider whether it affects later phases.

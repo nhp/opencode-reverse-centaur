@@ -50,18 +50,28 @@ For each relevant category, evaluate the proposed approach:
 
 Do not silently choose an insecure approach. If there is tension between convenience and security, discuss it explicitly.
 
+## Step 2c: Testing Strategy
+
+Load the **tdd** skill. Identify the public interfaces or highest reliable seams that should drive implementation tests.
+
+Discuss with the user if unclear:
+- Which behaviors are most important to test
+- Whether existing seams are sufficient
+- Whether any new seam is needed to test behavior without coupling to implementation details
+
 ## Step 3: Develop the Plan Structure
 
 **This is interactive.** Present your proposed approach to the user and discuss:
 
 1. **Approach:** What's the overall strategy? Are there alternative approaches? Why this one?
 2. **Security:** Which security categories apply? What are the security requirements? (from Step 2b)
-3. **Phases:** How should the work be broken down? Each phase must be:
+3. **Testing:** Which public seams and behavior tests will drive the work? (from Step 2c)
+4. **Phases:** How should the work be broken down? Each phase must be:
    - Independently committable (working state after each phase)
    - Include both feature code AND its tests
    - Have clear, verifiable success criteria
-4. **Risks:** What could go wrong? How do we mitigate? (include security risks)
-5. **Open questions:** If anything is unclear, ask NOW — not during implementation.
+5. **Risks:** What could go wrong? How do we mitigate? (include security risks)
+6. **Open questions:** If anything is unclear, ask NOW — not during implementation.
 
 When a trade-off is resolved, apply the decision-record three-gate test:
 - Hard to reverse — changing later has meaningful cost
@@ -83,6 +93,7 @@ Key requirements:
 - **Security-relevant phases include explicit security success criteria** (e.g., "parameterized queries used for all DB access", "CSRF token validated on form submission")
 - File paths reference real files (from research) or clearly mark new files to create
 - Tests are in EVERY phase — never a separate "testing phase"
+- Each phase identifies the behavior tests to drive it; implementation should use red-green-refactor, not bulk test writing
 - Checkboxes on all actionable items (for progress tracking during implementation)
 - Meaningful trade-offs are captured as decision records only when they pass the three-gate test
 
