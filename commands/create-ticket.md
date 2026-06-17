@@ -23,6 +23,8 @@ Get the next available ticket number:
 
 Work through each phase in order. Move to the next phase only when the user confirms the current one.
 
+If the request is still a vague idea rather than ticket-ready work, offer to run `/grill-with-docs` first. Use ticket creation when the user is ready to capture scoped work.
+
 ### Phase 1: Understanding the Problem
 Ask the user:
 - What problem are we solving? What's broken, missing, or suboptimal?

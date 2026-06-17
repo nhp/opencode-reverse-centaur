@@ -10,9 +10,9 @@ Inspired and adapted from [Tobi Schlitt: context-engineering for LLM coding](htt
 
 | Component    | Count | Description                                                                                                                   |
 | ------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Commands** | 12    | `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/memory`, `/handoff`, `/init-workflow`, `/caveman` |
+| **Commands** | 13    | `/grill-with-docs`, `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/memory`, `/handoff`, `/init-workflow`, `/caveman` |
 | **Agents**   | 7     | Specialized subagents for codebase analysis, pattern finding, documentation, web research, and code review                    |
-| **Skills**   | 10    | Research documents, implementation plans, security checklist, diagnose, TDD, handoff, caveman mode, caveman-help, caveman-commit, caveman-review |
+| **Skills**   | 11    | Research documents, implementation plans, security checklist, diagnose, TDD, handoff, grill-with-docs, caveman mode, caveman-help, caveman-commit, caveman-review |
 | **Plugin**   | 1     | Ticket status reminders on git operations + desktop notifications                                                             |
 | **Scripts**  | 5     | Ticket management utilities, credentials access, and worktree management                                                     |
 
@@ -78,6 +78,8 @@ Replace `PROJ` with your ticket prefix (e.g., `NHP`, `SHOP`, `APP`). This create
 
 ### The 4-Step Development Cycle
 
+For vague ideas or unresolved design trade-offs, start with **`/grill-with-docs`** before creating tickets. It clarifies domain language, checks prior decisions, and captures durable decisions inline.
+
 1. **`/create-ticket`** — Interactive ticket creation through 7 collaborative phases. Produces a structured ticket in `thoughts/shared/tickets/`.
 
 2. **`/research PROJ-0001`** — Spawns subagents to research the codebase: locate files, analyze code, find patterns, check documentation. Produces a research document in `thoughts/shared/research/`.
@@ -93,6 +95,7 @@ Replace `PROJ` with your ticket prefix (e.g., `NHP`, `SHOP`, `APP`). This create
 - **`/discuss topic`** — Technical discussion with a senior engineer sparring partner. No code changes.
 - **`/memory [lookup|capture TICKET-ID]`** — Cross-ticket continuity workflow. Lookup prior reusable knowledge before new work, capture durable insights after merge.
 - **`/handoff next focus`** — Create a temporary handoff document for another focused session.
+- **`/grill-with-docs idea`** — Clarify vague work against code, `CONTEXT.md`, and prior decisions before ticketing or planning.
 - **diagnose skill** — On-demand debugging loop for bug reports, failing tests, and performance regressions.
 - **tdd skill** — Red-green-refactor guidance for implementing one behavior at a time through public interfaces.
 - **`/ticket-from-jira PROJ-1234`** — Import a Jira ticket into the local format. Requires Jira MCP.

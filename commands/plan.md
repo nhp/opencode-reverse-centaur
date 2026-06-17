@@ -82,6 +82,8 @@ Only suggest a decision record when all three are true. If created, write it to 
 
 **Do not proceed until all open questions are resolved.** Discuss every uncertainty with the user.
 
+If open questions require deeper design exploration, switch to `/grill-with-docs` before finalizing the plan. If they require seeing or exercising behavior, use `/handoff` to a `/prototype` session.
+
 ## Step 4: Write the Detailed Plan
 
 Load the **implementation-plan** skill for the output template.
