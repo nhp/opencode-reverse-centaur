@@ -49,6 +49,7 @@ opencode-template/
 │   ├── discuss.md
 │   ├── init-workflow.md                  # Scaffold command
 │   ├── memory.md                         # Cross-ticket memory lookup/capture
+│   ├── handoff.md                        # Temporary context transfer for focused parallel sessions
 │   └── caveman.md                        # Optional terse-output mode
 ├── agents/
 │   ├── codebase-locator.md
@@ -68,6 +69,8 @@ opencode-template/
 │   ├── diagnose/
 │   │   └── SKILL.md
 │   ├── tdd/
+│   │   └── SKILL.md
+│   ├── handoff/
 │   │   └── SKILL.md
 │   ├── caveman/
 │   │   └── SKILL.md
@@ -133,7 +136,7 @@ opencode-template/
 
 ## Component Inventory
 
-### Commands (11 files)
+### Commands (12 files)
 
 | File | Source | Status | Adaptation Notes |
 |------|--------|--------|-----------------|
@@ -145,6 +148,7 @@ opencode-template/
 | `commands/commit.md` | Template `commit.md` | [x] | Adapt to branch naming (`feature/SHORTCODE/TICKET-ID/branch-name`). Add inline ticket status reminder. |
 | `commands/review.md` | Template `code_review.md` | [x] | Replace ticket refs with `!./scripts/ticket.sh`. Output to `thoughts/shared/reviews/`. |
 | `commands/discuss.md` | Template `discuss.md` | [x] | Nearly direct copy. Output to `thoughts/shared/discussions/`. |
+| `commands/handoff.md` | Matt Pocock skills pattern | [x] | Writes temporary handoff documents outside the repo for parallel/focused sessions. |
 | `commands/init-workflow.md` | New | [x] | Takes PREFIX as `$ARGUMENTS`. Reads `$OPENCODE_TEMPLATE_DIR`. Creates dirs, copies scripts, writes `.ticket-prefix`, optionally generates starter `AGENTS.md`. |
 | `commands/memory.md` | New | [x] | Lookup/capture workflow for cross-ticket continuity. Uses `thoughts/shared/memory/` as reusable knowledge layer. |
 | `commands/caveman.md` | New | [x] | Activates token-efficient caveman mode and optional compressed helper skills. |
@@ -161,7 +165,7 @@ opencode-template/
 | `agents/web-search-researcher.md` | subagent | [x] | webfetch, websearch, read, grep, glob, todowrite | edit, write | Web research specialist. Preferred/excluded source lists. |
 | `agents/code-reviewer.md` | subagent | [x] | read, grep, glob, list, lsp | edit, write | Migrated from inline `opencode.json` definition. Full review prompt. |
 
-### Skills (9 directories)
+### Skills (10 directories)
 
 | Skill | Status | Contents | Loaded By |
 |-------|--------|----------|-----------|
@@ -170,6 +174,7 @@ opencode-template/
 | `skills/security-checklist/SKILL.md` | [x] | OWASP/CWE-based security checklist with 9 categories, decision matrix, secure vs insecure patterns | `/research`, `/plan`, `/implement`, `/review` commands |
 | `skills/diagnose/SKILL.md` | [x] | Disciplined debugging loop: feedback loop, reproduce, hypotheses, instrumentation, fix, regression test, cleanup | Loaded on demand for bug reports/failures |
 | `skills/tdd/SKILL.md` | [x] | Red-green-refactor guidance for behavior tests through public interfaces | `/plan`, `/implement`, debugging fixes |
+| `skills/handoff/SKILL.md` | [x] | Temporary context-transfer document format with artifact links and suggested commands/skills | `/handoff`, out-of-scope follow-ups |
 | `skills/caveman/SKILL.md` | [x] | Token-efficient communication mode (lite/full/ultra, wenyan variants) | `/caveman` command |
 | `skills/caveman-help/SKILL.md` | [x] | One-shot quick reference for caveman modes and commands | `/caveman-help` command |
 | `skills/caveman-commit/SKILL.md` | [x] | Ultra-compressed conventional commit message generation | `/caveman` flow, commit workflows |
