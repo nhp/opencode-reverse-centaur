@@ -93,7 +93,8 @@ opencode-template/
 │   └── caveman-review/
 │       └── SKILL.md
 ├── plugins/
-│   └── ticket-reminder.ts
+│   ├── ticket-reminder.ts
+│   └── package.json
 └── project-skeleton/                     # Copied per-project by /init-workflow
     ├── opencode.json.example             # Project-level config: MCP overrides + file-based credentials
     ├── scripts/
@@ -202,11 +203,12 @@ opencode-template/
 | `skills/caveman-commit/SKILL.md` | [x] | Ultra-compressed conventional commit message generation | `/caveman` flow, commit workflows |
 | `skills/caveman-review/SKILL.md` | [x] | Ultra-compressed one-line code review comments | `/caveman` flow, review workflows |
 
-### Plugin (1 file)
+### Plugin (1 plugin + manifest)
 
 | File | Status | Events | Logic |
 |------|--------|--------|-------|
 | `plugins/ticket-reminder.ts` | [x] | `tool.execute.after` | Filters for bash calls containing `git add`/`git commit`. Finds ticket IDs in staged files or recent commits. Reads local ticket status. Surfaces reminder if status needs updating. Optional: `session.idle` → `notify-send` for Linux notifications. |
+| `plugins/package.json` | [x] | — | Package manifest for plugin TypeScript dependencies. |
 | ~~`plugins/worktree.ts`~~ | Removed | — | Replaced by `scripts/worktree.sh` — shell script is more natural for terminal users than an agent plugin tool. |
 
 ### Project Skeleton (5 scripts + directories)
@@ -256,7 +258,7 @@ opencode-template/
 | 2 | Skills (13 directories) | [x] | Phase 0 |
 | 3 | Commands (18 files) | [x] | Phase 1 + 2 (commands reference agents and skills) |
 | 4 | Project skeleton scripts (5 files) | [x] | Phase 0 |
-| 5 | Plugin (1 file) | [x] | Phase 3 |
+| 5 | Plugin (1 plugin + manifest) | [x] | Phase 3 |
 | 6 | README.md | [x] | Phase 1–5 |
 | 7 | Run install.sh, test in one project | [x] | Phase 0–6 |
 | 8 | Ongoing docs alignment as features evolve | [ ] | Phase 6 |
