@@ -142,6 +142,7 @@ opencode-template/
 | Worktree file sync | Symlink entire `thoughts/` directory | All workflow context shared: tickets, research, plans, credentials, secrets. `opencode.json` committed, available via git. |
 | Worktree storage | `~/.opencode-worktrees/<project-name>/<description>/` | Outside the repo to keep the project directory clean. |
 | Domain language | Optional `CONTEXT.md` at project root | Shared glossary (Language, Relationships, Flagged ambiguities). Read by all commands when present. Inspired by Matt Pocock's `CONTEXT.md` pattern. |
+| Work slicing | Vertical slices with AFK/HITL/Human readiness | Local tickets and plans stay canonical, but slices should be independently verifiable and clear about delegation risk. |
 
 ## Component Inventory
 

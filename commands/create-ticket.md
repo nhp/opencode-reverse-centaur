@@ -49,6 +49,7 @@ Ask if there are different user types affected. Create a story for each.
 For each user story, define specific, testable acceptance criteria:
 - **Given** [precondition], **when** [action], **then** [expected result]
 - Each criterion must be verifiable — either through automated tests or manual steps
+- Criteria should describe end-to-end behavior, not isolated implementation layers
 
 Push for specifics. "It should work correctly" is not an acceptance criterion.
 
@@ -58,8 +59,15 @@ When an acceptance criterion depends on domain vocabulary, confirm that the term
 Explicitly define:
 - **In scope:** What IS included in this ticket
 - **Out of scope:** What is NOT included (can be separate tickets)
+- **Agent readiness:** AFK, HITL, or Human
+- **Blocked by:** Any ticket, decision, prototype, or external input required first
 
 This prevents scope creep and makes the ticket actionable.
+
+Use readiness labels this way:
+- **AFK:** Agent can implement from the ticket/research/plan without more human input
+- **HITL:** Agent can do most work but needs a human checkpoint for design, access, QA, or a decision
+- **Human:** Requires judgment, external coordination, or permissions that should not be delegated
 
 ### Phase 6: Surfacing Open Questions
 Separate questions into:
@@ -81,6 +89,8 @@ Use this format:
 **Status:** Open
 **Priority:** [Critical | High | Medium | Low]
 **Complexity:** [Small | Medium | Large | Epic]
+**Agent Readiness:** [AFK | HITL | Human]
+**Blocked By:** [None | Ticket/decision/prototype/external input]
 
 ## Problem Statement
 [Clear description of the problem]
@@ -94,6 +104,9 @@ Use this format:
 ## Acceptance Criteria
 - [ ] Given [precondition], when [action], then [expected result]
 - [ ] ...
+
+## Vertical Slice
+[The narrow complete behavior this ticket delivers end-to-end]
 
 ## Out of Scope
 - [What's explicitly excluded]

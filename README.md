@@ -82,6 +82,8 @@ For vague ideas or unresolved design trade-offs, start with **`/grill-with-docs`
 
 When a question needs to be seen or exercised, use **`/handoff`** to split out a focused **`/prototype`** session, then bring the answer back into the ticket or plan.
 
+Tickets and plans should prefer **vertical slices**: narrow, complete behavior through every needed layer. Mark work as **AFK** when an agent can proceed alone, **HITL** when a human checkpoint is required, or **Human** when it should not be delegated.
+
 1. **`/create-ticket`** — Interactive ticket creation through 7 collaborative phases. Produces a structured ticket in `thoughts/shared/tickets/`.
 
 2. **`/research PROJ-0001`** — Spawns subagents to research the codebase: locate files, analyze code, find patterns, check documentation. Produces a research document in `thoughts/shared/research/`.

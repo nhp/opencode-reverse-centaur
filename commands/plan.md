@@ -67,9 +67,11 @@ Discuss with the user if unclear:
 2. **Security:** Which security categories apply? What are the security requirements? (from Step 2b)
 3. **Testing:** Which public seams and behavior tests will drive the work? (from Step 2c)
 4. **Phases:** How should the work be broken down? Each phase must be:
-   - Independently committable (working state after each phase)
-   - Include both feature code AND its tests
-   - Have clear, verifiable success criteria
+    - Independently committable (working state after each phase)
+    - Include both feature code AND its tests
+    - Have clear, verifiable success criteria
+    - Prefer vertical slices through all needed layers over horizontal layer-only phases
+    - Mark whether it is AFK, HITL, or Human
 5. **Risks:** What could go wrong? How do we mitigate? (include security risks)
 6. **Open questions:** If anything is unclear, ask NOW — not during implementation.
 
@@ -96,6 +98,7 @@ Key requirements:
 - File paths reference real files (from research) or clearly mark new files to create
 - Tests are in EVERY phase — never a separate "testing phase"
 - Each phase identifies the behavior tests to drive it; implementation should use red-green-refactor, not bulk test writing
+- Phases are vertical slices where possible and include AFK/HITL/Human readiness
 - Checkboxes on all actionable items (for progress tracking during implementation)
 - Meaningful trade-offs are captured as decision records only when they pass the three-gate test
 

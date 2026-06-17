@@ -42,6 +42,12 @@ Brief description of the chosen approach and why it was selected over alternativ
 
 **Goal:** What this phase achieves.
 
+**Agent Mode:** AFK | HITL | Human
+
+**Blocked By:** None | Phase/ticket/decision/prototype/external input
+
+**Vertical Slice:** The narrow complete behavior delivered end-to-end.
+
 **Changes:**
 - [ ] `path/to/file.ext` — Description of change
 - [ ] `path/to/new-file.ext` — New file: description
@@ -92,6 +98,15 @@ Plans should identify behavior tests, not implementation-detail tests. Implement
 ### Phases Are Atomic
 Each phase should result in a working, committable state. If a phase fails, you can revert to the previous commit without losing other work.
 
+### Prefer Vertical Slices
+A good phase delivers a thin complete path through the needed layers. Avoid horizontal phases like "schema only", "API only", or "tests later" unless the plan explains why that is the safest split.
+
+### Mark Agent Readiness
+Use:
+- **AFK** when the agent can complete the phase from available artifacts
+- **HITL** when a human checkpoint is needed for design, access, QA, or a decision
+- **Human** when the phase should not be delegated
+
 ### Success Criteria Must Be Concrete
 - **Automated:** Things that can be verified by running a command (tests, linter, build)
 - **Manual:** Things that require human verification (UI behavior, business logic correctness)
@@ -107,6 +122,8 @@ Before starting implementation, verify the plan:
 - [ ] Each phase has both automated and manual success criteria
 - [ ] Tests are included in each phase (not deferred)
 - [ ] Behavior tests use public interfaces or the highest reliable seams
+- [ ] Each phase states Agent Mode and Blocked By
+- [ ] Horizontal phases are justified, not accidental
 - [ ] No open questions remain — all discussed with user
 - [ ] Research document has been consulted
 - [ ] Impact analysis from research has been addressed
