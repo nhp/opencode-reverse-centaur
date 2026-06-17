@@ -65,6 +65,8 @@ opencode-template/
 │   │   └── SKILL.md
 │   ├── security-checklist/
 │   │   └── SKILL.md
+│   ├── diagnose/
+│   │   └── SKILL.md
 │   ├── caveman/
 │   │   └── SKILL.md
 │   ├── caveman-help/
@@ -157,13 +159,14 @@ opencode-template/
 | `agents/web-search-researcher.md` | subagent | [x] | webfetch, websearch, read, grep, glob, todowrite | edit, write | Web research specialist. Preferred/excluded source lists. |
 | `agents/code-reviewer.md` | subagent | [x] | read, grep, glob, list, lsp | edit, write | Migrated from inline `opencode.json` definition. Full review prompt. |
 
-### Skills (7 directories)
+### Skills (8 directories)
 
 | Skill | Status | Contents | Loaded By |
 |-------|--------|----------|-----------|
 | `skills/research-document/SKILL.md` | [x] | Research document YAML template, output format spec, section descriptions, quality checklist | `/research` command |
 | `skills/implementation-plan/SKILL.md` | [x] | Plan template structure, phase format, success criteria (automated vs manual), review checklist | `/plan` command |
 | `skills/security-checklist/SKILL.md` | [x] | OWASP/CWE-based security checklist with 9 categories, decision matrix, secure vs insecure patterns | `/research`, `/plan`, `/implement`, `/review` commands |
+| `skills/diagnose/SKILL.md` | [x] | Disciplined debugging loop: feedback loop, reproduce, hypotheses, instrumentation, fix, regression test, cleanup | Loaded on demand for bug reports/failures |
 | `skills/caveman/SKILL.md` | [x] | Token-efficient communication mode (lite/full/ultra, wenyan variants) | `/caveman` command |
 | `skills/caveman-help/SKILL.md` | [x] | One-shot quick reference for caveman modes and commands | `/caveman-help` command |
 | `skills/caveman-commit/SKILL.md` | [x] | Ultra-compressed conventional commit message generation | `/caveman` flow, commit workflows |

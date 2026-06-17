@@ -1,6 +1,6 @@
 # OCT-0004: Add /diagnose Debugging Skill
 
-**Status:** Open
+**Status:** Done
 **Priority:** Medium
 **Type:** Feature
 
