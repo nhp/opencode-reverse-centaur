@@ -63,6 +63,7 @@ Copy the scripts from the template skeleton into `scripts/`:
 - `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/next-ticket.sh` → `scripts/next-ticket.sh`
 - `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/open_tickets.sh` → `scripts/open_tickets.sh`
 - `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/credentials.sh` → `scripts/credentials.sh`
+- `$OPENCODE_TEMPLATE_DIR/project-skeleton/scripts/worktree.sh` → `scripts/worktree.sh`
 
 Make them executable: `chmod +x scripts/*.sh`
 
@@ -198,7 +199,7 @@ Created:
   thoughts/.secrets/.gitkeep
   [thoughts/.user-acronym (if configured)]
   [thoughts/.credentials (if configured)]
-  scripts/{ticket.sh,next-ticket.sh,open_tickets.sh,credentials.sh}
+  scripts/{ticket.sh,next-ticket.sh,open_tickets.sh,credentials.sh,worktree.sh}
   opencode.json.example
   [opencode.json (if generated)]
   AGENTS-base.md → $OPENCODE_TEMPLATE_DIR/AGENTS-base.md (symlink)

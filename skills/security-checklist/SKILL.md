@@ -1,3 +1,8 @@
+---
+name: security-checklist
+description: Security review checklist for OWASP/CWE risks in research, planning, implementation, and review. Use when evaluating user input, auth, secrets, files, APIs, databases, or generated code security.
+---
+
 # Security Checklist Skill
 
 Use this checklist to evaluate security implications at every workflow stage. Based on OWASP Top 10 (2021), CWE/SANS Top 25 (2024), and documented AI-generated code vulnerability patterns (Perry et al. CCS 2023, Pearce et al. IEEE S&P 2022).

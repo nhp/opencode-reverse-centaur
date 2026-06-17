@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: Finds architectural deepening opportunities in codebases: shallow modules, weak seams, low locality, and hard-to-test areas. Use after reviews, failed implementations, debugging findings, or when the user asks to improve architecture/refactorability.
+description: "Finds architectural deepening opportunities in codebases: shallow modules, weak seams, low locality, and hard-to-test areas. Use after reviews, failed implementations, debugging findings, or when the user asks to improve architecture/refactorability."
 ---
 
 # Improve Codebase Architecture

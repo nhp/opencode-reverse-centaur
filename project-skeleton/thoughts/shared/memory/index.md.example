@@ -22,7 +22,6 @@ Curated retrieval map for cross-ticket continuity.
 
 ## Maintenance Checklist
 
-- Remove or mark superseded decisions.
-- Preserve superseded decisions and link the supersession chain.
+- Mark superseded decisions and update index links; never delete decision records.
 - Add missing links for high-frequency issue areas.
 - Keep this page skimmable.

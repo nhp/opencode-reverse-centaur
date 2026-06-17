@@ -28,27 +28,31 @@ Use `todowrite` to track progress across phases.
 ### For Each Phase:
 
 1. **Read the phase requirements** from the plan
-2. **Security pre-check** — Load the **security-checklist** skill and identify which categories apply to this phase using the Quick Decision Matrix. Keep the relevant rules in mind while implementing.
-3. **Implement the changes** listed in the phase using TDD
+2. **Check readiness and blockers**
+    - If `Agent Mode` is `Human`, stop and tell the user this phase should not be delegated.
+    - If `Agent Mode` is `HITL`, identify the required human checkpoint before starting and pause there later.
+    - If `Blocked By` is anything other than `None`, verify the blocker is resolved. If not, stop and ask the user how to proceed.
+3. **Security pre-check** — Load the **security-checklist** skill and identify which categories apply to this phase using the Quick Decision Matrix. Keep the relevant rules in mind while implementing.
+4. **Implement the changes** listed in the phase using TDD
     - Follow patterns identified in the research document
     - Include tests as part of the phase (not separately)
     - For each behavior: write one failing test, make the smallest change to pass, then repeat
     - Test through public interfaces or the highest reliable seam, not private implementation details
     - For security-relevant code: follow the secure patterns from the checklist, not the convenient ones
-4. **Refactor only after green** — clean duplication and deepen modules while keeping tests passing
-5. **Run verification** — execute the automated success criteria:
+5. **Refactor only after green** — clean duplication and deepen modules while keeping tests passing
+6. **Run verification** — execute the automated success criteria:
    - Run tests
    - Run linter/code style checks
    - Run build if applicable
-6. **Security post-check** — Before committing, verify against the security checklist:
+7. **Security post-check** — Before committing, verify against the security checklist:
    - No hardcoded secrets, API keys, or passwords
    - All user input parameterized/escaped (no string concatenation into queries/commands/HTML)
    - Authorization checks present on new endpoints
    - No disabled security features (`verify=False`, missing CSRF, permissive CORS)
    - Error responses don't leak internals
-7. **Check off completed items** in the plan file (update the checkboxes)
-8. **Commit** with a conventional commit message referencing the ticket ID
-9. **Move to the next phase**
+8. **Check off completed items** in the plan file (update the checkboxes)
+9. **Commit** with a conventional commit message referencing the ticket ID
+10. **Move to the next phase**
 
 ### If Something Goes Wrong
 
