@@ -53,7 +53,10 @@ opencode-template/
 │   ├── init-workflow.md                  # Scaffold command
 │   ├── memory.md                         # Cross-ticket memory lookup/capture
 │   ├── handoff.md                        # Temporary context transfer for focused parallel sessions
-│   └── caveman.md                        # Optional terse-output mode
+│   ├── caveman.md                        # Optional terse-output mode
+│   ├── caveman-help.md                    # Caveman quick reference
+│   ├── caveman-commit.md                  # Terse commit message helper
+│   └── caveman-review.md                  # Terse review comment helper
 ├── agents/
 │   ├── codebase-locator.md
 │   ├── codebase-analyzer.md
@@ -146,7 +149,7 @@ opencode-template/
 
 ## Component Inventory
 
-### Commands (15 files)
+### Commands (18 files)
 
 | File | Source | Status | Adaptation Notes |
 |------|--------|--------|-----------------|
@@ -165,6 +168,9 @@ opencode-template/
 | `commands/init-workflow.md` | New | [x] | Takes PREFIX as `$ARGUMENTS`. Reads `$OPENCODE_TEMPLATE_DIR`. Creates dirs, copies scripts, writes `.ticket-prefix`, optionally generates starter `AGENTS.md`. |
 | `commands/memory.md` | New | [x] | Lookup/capture workflow for cross-ticket continuity. Uses `thoughts/shared/memory/` as reusable knowledge layer. |
 | `commands/caveman.md` | New | [x] | Activates token-efficient caveman mode and optional compressed helper skills. |
+| `commands/caveman-help.md` | New | [x] | Loads caveman-help skill and displays quick reference. |
+| `commands/caveman-commit.md` | New | [x] | Loads caveman-commit skill to draft terse Conventional Commits messages. |
+| `commands/caveman-review.md` | New | [x] | Loads caveman-review skill to draft compressed review findings. |
 
 ### Agents (7 files)
 
@@ -247,9 +253,9 @@ opencode-template/
 |-------|-----------|--------|------------|
 | 0 | Repo scaffold, PLANNING.md, .gitignore, install.sh, examples, skeleton dirs | [x] | — |
 | 1 | Agents (7 files) | [x] | Phase 0 |
-| 2 | Skills (7 directories) | [x] | Phase 0 |
-| 3 | Commands (11 files) | [x] | Phase 1 + 2 (commands reference agents and skills) |
-| 4 | Project skeleton scripts (3 files) | [x] | Phase 0 |
+| 2 | Skills (13 directories) | [x] | Phase 0 |
+| 3 | Commands (18 files) | [x] | Phase 1 + 2 (commands reference agents and skills) |
+| 4 | Project skeleton scripts (5 files) | [x] | Phase 0 |
 | 5 | Plugin (1 file) | [x] | Phase 3 |
 | 6 | README.md | [x] | Phase 1–5 |
 | 7 | Run install.sh, test in one project | [x] | Phase 0–6 |

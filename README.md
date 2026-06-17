@@ -10,7 +10,7 @@ Inspired and adapted from [Tobi Schlitt: context-engineering for LLM coding](htt
 
 | Component    | Count | Description                                                                                                                   |
 | ------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Commands** | 15    | `/grill-with-docs`, `/prototype`, `/improve-codebase-architecture`, `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/memory`, `/handoff`, `/init-workflow`, `/caveman` |
+| **Commands** | 18    | `/grill-with-docs`, `/prototype`, `/improve-codebase-architecture`, `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/memory`, `/handoff`, `/init-workflow`, `/caveman`, `/caveman-help`, `/caveman-commit`, `/caveman-review` |
 | **Agents**   | 7     | Specialized subagents for codebase analysis, pattern finding, documentation, web research, and code review                    |
 | **Skills**   | 13    | Research documents, implementation plans, security checklist, diagnose, TDD, handoff, prototype, architecture improvement, grill-with-docs, caveman mode, caveman-help, caveman-commit, caveman-review |
 | **Plugin**   | 1     | Ticket status reminders on git operations + desktop notifications                                                             |
