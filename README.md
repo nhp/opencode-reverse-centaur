@@ -10,9 +10,9 @@ Inspired and adapted from [Tobi Schlitt: context-engineering for LLM coding](htt
 
 | Component    | Count | Description                                                                                                                   |
 | ------------ | ----- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **Commands** | 14    | `/grill-with-docs`, `/prototype`, `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/memory`, `/handoff`, `/init-workflow`, `/caveman` |
+| **Commands** | 15    | `/grill-with-docs`, `/prototype`, `/improve-codebase-architecture`, `/create-ticket`, `/ticket-from-jira`, `/research`, `/plan`, `/implement`, `/commit`, `/review`, `/discuss`, `/memory`, `/handoff`, `/init-workflow`, `/caveman` |
 | **Agents**   | 7     | Specialized subagents for codebase analysis, pattern finding, documentation, web research, and code review                    |
-| **Skills**   | 12    | Research documents, implementation plans, security checklist, diagnose, TDD, handoff, prototype, grill-with-docs, caveman mode, caveman-help, caveman-commit, caveman-review |
+| **Skills**   | 13    | Research documents, implementation plans, security checklist, diagnose, TDD, handoff, prototype, architecture improvement, grill-with-docs, caveman mode, caveman-help, caveman-commit, caveman-review |
 | **Plugin**   | 1     | Ticket status reminders on git operations + desktop notifications                                                             |
 | **Scripts**  | 5     | Ticket management utilities, credentials access, and worktree management                                                     |
 
@@ -99,6 +99,7 @@ When a question needs to be seen or exercised, use **`/handoff`** to split out a
 - **`/handoff next focus`** — Create a temporary handoff document for another focused session.
 - **`/grill-with-docs idea`** — Clarify vague work against code, `CONTEXT.md`, and prior decisions before ticketing or planning.
 - **`/prototype question`** — Build a throwaway logic or UI prototype to answer a high-fidelity question.
+- **`/improve-codebase-architecture scope`** — Find deepening opportunities, weak seams, and hard-to-test areas before creating refactor tickets.
 - **diagnose skill** — On-demand debugging loop for bug reports, failing tests, and performance regressions.
 - **tdd skill** — Red-green-refactor guidance for implementing one behavior at a time through public interfaces.
 - **`/ticket-from-jira PROJ-1234`** — Import a Jira ticket into the local format. Requires Jira MCP.

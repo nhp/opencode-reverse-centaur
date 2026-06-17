@@ -77,6 +77,11 @@ Load the **security-checklist** skill and use the **Quick Decision Matrix** to i
 - No TODO comments that should have been addressed
 - No unnecessary file changes
 
+### Architecture Friction
+- Did the implementation require awkward seams, shallow wrappers, or tests coupled to internals?
+- Did the agent repeatedly edit the wrong place or duplicate logic because locality is poor?
+- If yes, suggest `/improve-codebase-architecture` as a follow-up after review findings are addressed.
+
 ## Output
 
 Write the review to: `thoughts/shared/reviews/[TICKET-ID]-review.md` (or `YYYY-MM-DD-[scope].md` for non-ticket reviews)
