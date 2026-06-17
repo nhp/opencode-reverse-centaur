@@ -22,7 +22,7 @@ Memory layer structure:
 
 - `thoughts/shared/memory/index.md` — curated retrieval map
 - `thoughts/shared/memory/concepts/` — durable invariants/pitfalls
-- `thoughts/shared/memory/decisions/` — ADR-lite rationale and supersession
+- `thoughts/shared/memory/decisions/` — ADR-lite rationale, supersession, and decision template
 
 Local markdown tickets are the canonical format (works everywhere). An optional `/ticket-from-jira` command imports Jira tickets into the same local format for projects that use Jira.
 
@@ -97,7 +97,9 @@ opencode-template/
             └── memory/
                 ├── index.md.example
                 ├── concepts/.gitkeep
-                └── decisions/.gitkeep
+                └── decisions/
+                    ├── .gitkeep
+                    └── decision-template.md.example
 ```
 
 ## Technical Decisions

@@ -1,0 +1,28 @@
+# Decision: [Short Title]
+
+**Status:** active | superseded | experimental
+**Date:** YYYY-MM-DD
+**Sources:** [ticket/research/plan/review/discussion links]
+**Supersedes:** none | [decision link]
+**Superseded by:** none | [decision link]
+
+Write a decision record only when all three are true:
+- Hard to reverse — changing later has meaningful cost
+- Surprising without context — future readers will ask why
+- Real trade-off — credible alternatives existed
+
+## Context
+
+[What forced this decision? Include source citations.]
+
+## Decision
+
+[The choice made.]
+
+## Consequences
+
+[Expected benefits, costs, constraints, and follow-up risks.]
+
+## Alternatives Considered
+
+- [Alternative] — [why rejected]

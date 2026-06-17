@@ -63,6 +63,13 @@ Do not silently choose an insecure approach. If there is tension between conveni
 4. **Risks:** What could go wrong? How do we mitigate? (include security risks)
 5. **Open questions:** If anything is unclear, ask NOW — not during implementation.
 
+When a trade-off is resolved, apply the decision-record three-gate test:
+- Hard to reverse — changing later has meaningful cost
+- Surprising without context — future readers will ask why
+- Real trade-off — credible alternatives existed
+
+Only suggest a decision record when all three are true. If created, write it to `thoughts/shared/memory/decisions/dec-YYYY-MM-DD-short-title.md` and cite the ticket/research/plan discussion that triggered it.
+
 **Do not proceed until all open questions are resolved.** Discuss every uncertainty with the user.
 
 ## Step 4: Write the Detailed Plan
@@ -77,6 +84,7 @@ Key requirements:
 - File paths reference real files (from research) or clearly mark new files to create
 - Tests are in EVERY phase — never a separate "testing phase"
 - Checkboxes on all actionable items (for progress tracking during implementation)
+- Meaningful trade-offs are captured as decision records only when they pass the three-gate test
 
 ## Step 5: Review with User
 

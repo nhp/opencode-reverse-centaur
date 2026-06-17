@@ -128,6 +128,15 @@ When you need credentials for a task (e.g., API calls, login, curl commands), us
 - Research existing patterns before implementing new features.
 - Never defer testing — a phase is only complete when tests pass.
 
+## Decision Records
+
+Store durable architectural decisions in `thoughts/shared/memory/decisions/` only when all three gates pass:
+- The decision is hard to reverse.
+- The decision would be surprising without context.
+- The decision was the result of a real trade-off.
+
+Keep superseded decisions instead of deleting them. Mark them `**Status:** superseded` and link to the replacement.
+
 ## Git Discipline
 
 - Commit after each verified logical step (conventional commits).

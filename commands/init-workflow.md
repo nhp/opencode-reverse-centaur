@@ -127,6 +127,7 @@ This ensures `.ticket-prefix`, `.user-acronym`, `.credentials`, and `.secrets/*`
 
 Copy memory starter templates from the skeleton:
 - `$OPENCODE_TEMPLATE_DIR/project-skeleton/thoughts/shared/memory/index.md.example` → `thoughts/shared/memory/index.md` (if target doesn't exist)
+- `$OPENCODE_TEMPLATE_DIR/project-skeleton/thoughts/shared/memory/decisions/decision-template.md.example` → `thoughts/shared/memory/decisions/decision-template.md.example` (if target doesn't exist)
 
 If `thoughts/shared/memory/index.md` already exists, preserve it and skip copying.
 
@@ -135,7 +136,7 @@ Explain usage briefly:
 >
 > - `index.md` is a curated retrieval map.
 > - `concepts/` stores durable invariants/pitfalls.
-> - `decisions/` stores ADR-lite rationale and supersession history.
+> - `decisions/` stores ADR-lite rationale and supersession history. Write a decision only when it is hard to reverse, surprising without context, and the result of a real trade-off.
 
 ## Step 4: Symlink AGENTS-base.md
 
@@ -189,6 +190,7 @@ Created:
   thoughts/shared/{tickets,discussions,plans,research,reviews,memory/}
   thoughts/shared/memory/index.md
   thoughts/shared/memory/{concepts,decisions}/
+  thoughts/shared/memory/decisions/decision-template.md.example
   thoughts/.ticket-prefix
   thoughts/.gitignore
   thoughts/.credentials.example

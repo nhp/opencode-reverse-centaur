@@ -1,6 +1,6 @@
 # OCT-0005: Align memory/decisions/ Template with ADR Best Practices
 
-**Status:** Open
+**Status:** Done
 **Priority:** Medium
 **Type:** Enhancement
 **Depends on:** OCT-0002

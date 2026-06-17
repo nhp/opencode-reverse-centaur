@@ -71,6 +71,8 @@ If your project has a `CONTEXT.md`, keep it updated as domain understanding evol
 - After a ticket is merged, capture a short memory delta (durable insights only).
 - Keep memory entries source-linked to ticket/research/plan/review docs.
 - Avoid duplicating whole ticket narratives in memory pages; store reusable conclusions only.
+- Write decision records only when the choice is hard to reverse, surprising without context, and the result of a real trade-off.
+- Preserve superseded decisions and link the supersession chain.
 
 ## Local Development
 

@@ -51,11 +51,29 @@ Expected trigger: **ticket merged to main**.
    - Likely to matter in 3+ months
    - Useful beyond this single ticket
 3. Update or create:
-   - One concept page if a reusable invariant/pitfall emerged
-   - One decision page if a meaningful trade-off was resolved
+    - One concept page if a reusable invariant/pitfall emerged
+    - One decision page if a meaningful trade-off was resolved and passes the three-gate test
 4. Update `thoughts/shared/memory/index.md` links
 5. If `CONTEXT.md` exists, check whether new domain terms emerged during the ticket lifecycle. If so, suggest additions to `CONTEXT.md`.
 6. Keep the update lean (target 5-10 minutes)
+
+### Decision Record Gate
+
+Before creating a decision record, verify all three are true:
+
+1. **Hard to reverse** — changing later has meaningful cost
+2. **Surprising without context** — future readers will ask why
+3. **Real trade-off** — credible alternatives existed and one was chosen for a reason
+
+If any gate fails, skip the decision record and keep the rationale in the source artifact instead.
+
+Decision records live at `thoughts/shared/memory/decisions/dec-YYYY-MM-DD-short-title.md` and include:
+- Context
+- Decision
+- Consequences
+- Alternatives considered
+- Supersedes / Superseded by links
+- Sources pointing back to ticket/research/plan/review/discussion files
 
 ## Quality Rules
 
@@ -63,6 +81,8 @@ Expected trigger: **ticket merged to main**.
 - Keep raw source artifacts canonical; memory pages are derived.
 - Every memory claim should link back to ticket/research/plan/review sources.
 - Mark uncertain/rejected hypotheses as `experimental` instead of asserting them as fact.
+- Do not delete superseded decisions. Mark `**Status:** superseded` and link to the replacing decision.
+- Keep decision records short; the template in `thoughts/shared/memory/decisions/decision-template.md.example` is the upper bound, not a prompt to write essays.
 
 ## If Memory Layer Is Missing
 

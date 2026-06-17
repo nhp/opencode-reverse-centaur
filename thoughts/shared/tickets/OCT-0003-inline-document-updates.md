@@ -1,6 +1,6 @@
 # OCT-0003: Add Inline Document Updates to Workflow Commands
 
-**Status:** Open
+**Status:** Done
 **Priority:** High
 **Type:** Enhancement
 **Depends on:** OCT-0002

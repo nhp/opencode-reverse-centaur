@@ -7,6 +7,7 @@ Curated retrieval map for cross-ticket continuity.
 - Add links to reusable memory pages by domain/module.
 - Keep entries short; link to sources instead of duplicating long narratives.
 - Update after merge when a ticket yields durable insights.
+- Write decision records only when the choice is hard to reverse, surprising without context, and the result of a real trade-off.
 
 ## Domains
 
@@ -22,5 +23,6 @@ Curated retrieval map for cross-ticket continuity.
 ## Maintenance Checklist
 
 - Remove or mark superseded decisions.
+- Preserve superseded decisions and link the supersession chain.
 - Add missing links for high-frequency issue areas.
 - Keep this page skimmable.

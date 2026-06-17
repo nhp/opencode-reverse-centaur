@@ -17,6 +17,7 @@ Get the next available ticket number:
 
 - Read `CONTEXT.md` if present at project root. Use its vocabulary when defining the problem, acceptance criteria, and user stories.
 - If `CONTEXT.md` does not exist, continue normally.
+- If acceptance criteria reveal a new domain term, relationship, or resolved ambiguity, suggest a small `CONTEXT.md` update with a source note pointing to the ticket question or constraint that clarified it.
 
 ## Process: 7 Phases
 
@@ -48,6 +49,8 @@ For each user story, define specific, testable acceptance criteria:
 - Each criterion must be verifiable — either through automated tests or manual steps
 
 Push for specifics. "It should work correctly" is not an acceptance criterion.
+
+When an acceptance criterion depends on domain vocabulary, confirm that the term exists in `CONTEXT.md` or propose the exact glossary addition.
 
 ### Phase 5: Defining Boundaries
 Explicitly define:
@@ -109,4 +112,7 @@ Use this format:
 
 ## Notes
 [Any additional context]
+
+## Documentation Updates
+- [Suggested or applied CONTEXT.md updates with source citations]
 ```

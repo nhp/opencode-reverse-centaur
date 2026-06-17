@@ -115,6 +115,8 @@ The template supports a lean memory layer to prevent loss of important discoveri
 - `thoughts/shared/memory/concepts/` — durable invariants and recurring pitfalls
 - `thoughts/shared/memory/decisions/` — ADR-lite rationale and supersession history
 
+Write a decision record only when the decision is hard to reverse, surprising without context, and the result of a real trade-off. Superseded decisions stay in place with links to their replacements.
+
 Recommended cadence:
 
 1. Before `/research` or `/plan`, run `/memory` (lookup mode)
@@ -340,7 +342,7 @@ All subagents follow a strict "documentarian" rule — they describe what exists
         └── memory/
             ├── index.md       # Cross-ticket retrieval map
             ├── concepts/      # Durable invariants/pitfalls
-            └── decisions/     # ADR-lite decision history
+            └── decisions/     # ADR-lite decision history + template
 ```
 
 ## Acknowledgements
