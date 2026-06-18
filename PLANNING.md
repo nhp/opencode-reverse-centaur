@@ -40,6 +40,7 @@ opencode-template/
 │   └── CONTEXT.md.example                # Domain language glossary template
 ├── commands/
 │   ├── create-ticket.md
+│   ├── grill-me.md
 │   ├── grill-with-docs.md
 │   ├── prototype.md
 │   ├── improve-codebase-architecture.md
@@ -77,6 +78,8 @@ opencode-template/
 │   ├── tdd/
 │   │   └── SKILL.md
 │   ├── handoff/
+│   │   └── SKILL.md
+│   ├── grill-me/
 │   │   └── SKILL.md
 │   ├── grill-with-docs/
 │   │   └── SKILL.md
@@ -150,10 +153,11 @@ opencode-template/
 
 ## Component Inventory
 
-### Commands (18 files)
+### Commands (19 files)
 
 | File | Source | Status | Adaptation Notes |
 |------|--------|--------|-----------------|
+| `commands/grill-me.md` | Matt Pocock skills pattern | [x] | General one-question-at-a-time interview for non-code ideas, docs, prose, talks, presentations, and strategy. |
 | `commands/grill-with-docs.md` | Matt Pocock skills pattern | [x] | Upstream clarification workflow using CONTEXT.md, memory decisions, code checks, and prototype handoffs. |
 | `commands/prototype.md` | Matt Pocock skills pattern | [x] | Throwaway logic/UI prototyping workflow; captures answers back into durable artifacts. |
 | `commands/improve-codebase-architecture.md` | Matt Pocock skills pattern | [x] | Produces temp architecture reports with deepening candidates before refactor ticket creation. |
@@ -185,7 +189,7 @@ opencode-template/
 | `agents/web-search-researcher.md` | subagent | [x] | webfetch, websearch, read, grep, glob, todowrite | edit, write | Web research specialist. Preferred/excluded source lists. |
 | `agents/code-reviewer.md` | subagent | [x] | read, grep, glob, list, lsp | edit, write | Migrated from inline `opencode.json` definition. Full review prompt. |
 
-### Skills (13 directories)
+### Skills (14 directories)
 
 | Skill | Status | Contents | Loaded By |
 |-------|--------|----------|-----------|
@@ -195,6 +199,7 @@ opencode-template/
 | `skills/diagnose/SKILL.md` | [x] | Disciplined debugging loop: feedback loop, reproduce, hypotheses, instrumentation, fix, regression test, cleanup | Loaded on demand for bug reports/failures |
 | `skills/tdd/SKILL.md` | [x] | Red-green-refactor guidance for behavior tests through public interfaces | `/plan`, `/implement`, debugging fixes |
 | `skills/handoff/SKILL.md` | [x] | Temporary context-transfer document format with artifact links and suggested commands/skills | `/handoff`, out-of-scope follow-ups |
+| `skills/grill-me/SKILL.md` | [x] | General-purpose one-question-at-a-time grilling for non-code ideas, writing, docs, talks, and strategy | `/grill-me`, non-code clarification |
 | `skills/grill-with-docs/SKILL.md` | [x] | One-question-at-a-time design grilling against CONTEXT.md, memory decisions, and codebase reality | `/grill-with-docs`, pre-ticket clarification |
 | `skills/prototype/SKILL.md` | [x] | Throwaway logic/state or UI variant prototypes that answer one high-fidelity question | `/prototype`, handoffs from grilling |
 | `skills/improve-codebase-architecture/SKILL.md` | [x] | Architecture deepening report for shallow modules, weak seams, and hard-to-test areas | `/improve-codebase-architecture`, post-review/debugging follow-ups |
@@ -255,8 +260,8 @@ opencode-template/
 |-------|-----------|--------|------------|
 | 0 | Repo scaffold, PLANNING.md, .gitignore, install.sh, examples, skeleton dirs | [x] | — |
 | 1 | Agents (7 files) | [x] | Phase 0 |
-| 2 | Skills (13 directories) | [x] | Phase 0 |
-| 3 | Commands (18 files) | [x] | Phase 1 + 2 (commands reference agents and skills) |
+| 2 | Skills (14 directories) | [x] | Phase 0 |
+| 3 | Commands (19 files) | [x] | Phase 1 + 2 (commands reference agents and skills) |
 | 4 | Project skeleton scripts (5 files) | [x] | Phase 0 |
 | 5 | Plugin (1 plugin + manifest) | [x] | Phase 3 |
 | 6 | README.md | [x] | Phase 1–5 |
